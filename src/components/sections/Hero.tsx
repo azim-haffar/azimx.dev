@@ -9,8 +9,8 @@ export function Hero() {
   const linkedin = socialLinks.find((s) => s.label === "LinkedIn");
 
   return (
-    <section id="top" className="scroll-mt-28 pt-32 sm:pt-40 lg:pt-48">
-      <Container className="pb-20 sm:pb-24 lg:pb-32">
+    <section id="top" className="scroll-mt-28 pt-24 sm:pt-32 lg:pt-40">
+      <Container className="pb-16 sm:pb-20 lg:pb-24">
         <div className="animate-fade-up">
           <span className="glass-control inline-flex items-center rounded-full px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-fg-muted">
             Software Engineering Student
@@ -20,16 +20,21 @@ export function Hero() {
             <br />
             Haffar
           </h1>
-          <p className="mt-8 max-w-md text-xl leading-snug text-fg-muted sm:text-2xl">
+          <p className="mt-6 max-w-md text-xl leading-snug text-fg-muted sm:text-2xl">
             Backend-focused Software Engineering student building with Java,
             Spring Boot, Python, and FastAPI, with hands-on Docker and CI/CD.
           </p>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-fg-subtle">
-            Available from October 2026 for 3–12 month internships in Europe;
-            open to relocation.
+
+          <p className="mt-4 inline-flex flex-wrap items-center gap-2 text-sm text-fg-subtle">
+            <span
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+              aria-hidden="true"
+            />
+            Available from October 2026 · 3–12 months · Europe · Open to
+            relocation
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             {resumeUrl ? <Button href={resumeUrl}>Resume</Button> : null}
             <Button
               href={github?.href ?? undefined}

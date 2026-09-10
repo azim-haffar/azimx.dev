@@ -15,9 +15,35 @@ const socialIcons: Record<string, React.ComponentType<{ className?: string }>> =
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+
+  // Scrollspy: highlight whichever section is currently near the top of the
+  // viewport, using a detection band rather than the exact top edge so the
+  // active link updates a little before/after each section fully arrives.
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.querySelector(link.href))
+      .filter((el): el is Element => el !== null);
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length === 0) return;
+        const topmost = visible.reduce((a, b) =>
+          a.boundingClientRect.top <= b.boundingClientRect.top ? a : b
+        );
+        setActiveHref(`#${topmost.target.id}`);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   // Open state: focus the first menu link, lock page scroll, and make the
   // rest of the page (main content + footer) inert so keyboard/assistive-tech
@@ -103,7 +129,10 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-full px-3 py-2 text-sm text-fg-muted transition-colors duration-150 hover:text-fg"
+                aria-current={activeHref === link.href ? "true" : undefined}
+                className={`rounded-full px-3 py-2 text-sm transition-colors duration-150 hover:bg-surface hover:text-fg ${
+                  activeHref === link.href ? "text-accent" : "text-fg-muted"
+                }`}
               >
                 {link.label}
               </Link>
@@ -174,7 +203,10 @@ export function Navbar() {
                   href={link.href}
                   ref={index === 0 ? firstLinkRef : undefined}
                   onClick={() => setIsOpen(false)}
-                  className="rounded-lg px-3 py-3 text-base text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
+                  aria-current={activeHref === link.href ? "true" : undefined}
+                  className={`rounded-lg px-3 py-3 text-base transition-colors duration-150 hover:bg-surface hover:text-fg ${
+                    activeHref === link.href ? "text-accent" : "text-fg-muted"
+                  }`}
                 >
                   {link.label}
                 </Link>

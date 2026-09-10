@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function About() {
   return (
-    <section id="about" className="scroll-mt-24 py-20 sm:py-24">
+    <section id="about" className="scroll-mt-24 py-16 sm:py-20">
       <Container className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
         <SectionHeading
           eyebrow="About"

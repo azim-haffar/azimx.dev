@@ -24,6 +24,12 @@ export interface Project {
   caseStudyReady?: boolean;
   imageSrc?: string;
   imageAlt?: string;
+  /** "cover" (default) fills the media area, cropping overflow. Use "contain"
+   * when the screenshot has important UI near the edges that cover would crop. */
+  imageFit?: "cover" | "contain";
+  /** Overrides the split-layout media aspect ratio (default "4/3") to better
+   * match the real screenshot and avoid excess letterboxing. */
+  imageAspect?: "4/3" | "16/9";
   featured?: boolean;
 }
 

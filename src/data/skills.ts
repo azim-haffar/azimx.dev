@@ -30,8 +30,12 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    label: "Data & Messaging",
+    label: "Data / Messaging",
     skills: ["PostgreSQL", "Redis", "Apache Kafka", "Supabase"],
+  },
+  {
+    label: "Testing",
+    skills: ["JUnit", "Mockito", "Testcontainers", "integration testing"],
   },
   {
     label: "AI / ML",
@@ -42,10 +46,6 @@ export const skillGroups: SkillGroup[] = [
       "prompt engineering",
       "LangChain",
     ],
-  },
-  {
-    label: "Testing",
-    skills: ["JUnit", "Mockito", "Testcontainers", "integration testing"],
   },
   {
     label: "Frontend",

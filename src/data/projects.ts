@@ -30,6 +30,10 @@ export const projects: Project[] = [
     liveDemo: { href: null, label: "Live Demo" },
     caseStudyHref: "/projects/orderflow",
     caseStudyReady: false,
+    imageSrc: "/projects/overview.png",
+    imageAlt:
+      "OrderFlow dashboard showing order processing, Kafka status, Redis, PostgreSQL, and event activity",
+    imageFit: "contain",
     featured: true,
   },
   {
@@ -55,6 +59,11 @@ export const projects: Project[] = [
     liveDemo: { href: null, label: "Live Demo" },
     caseStudyHref: "/projects/hirelens",
     caseStudyReady: false,
+    imageSrc: "/projects/hirelens.png",
+    imageAlt:
+      "HireLens application landing page showing AI-powered CV analysis features",
+    imageFit: "contain",
+    imageAspect: "16/9",
     featured: true,
   },
   {

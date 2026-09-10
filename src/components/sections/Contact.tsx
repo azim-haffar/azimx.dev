@@ -8,7 +8,7 @@ export function Contact() {
   const linkedin = socialLinks.find((s) => s.label === "LinkedIn");
 
   return (
-    <section id="contact" className="scroll-mt-24 bg-bg-subtle py-24 sm:py-32">
+    <section id="contact" className="scroll-mt-24 bg-bg-subtle py-20 sm:py-24">
       <Container className="flex flex-col items-center text-center">
         <p className="font-mono text-xs uppercase tracking-widest text-fg-subtle">
           Contact
@@ -21,12 +21,13 @@ export function Contact() {
           Backend, or ML/AI.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <ContactPill
             icon={<Mail className="h-4 w-4" aria-hidden="true" />}
             label="Email"
             href={siteConfig.emailIsPlaceholder ? null : `mailto:${siteConfig.email}`}
             fallback="Coming soon"
+            strong
           />
           <ContactPill
             icon={<LinkedInIcon className="h-4 w-4" aria-hidden="true" />}
@@ -51,11 +52,13 @@ function ContactPill({
   label,
   href,
   fallback,
+  strong = false,
 }: {
   icon: React.ReactNode;
   label: string;
   href: string | null;
   fallback: string;
+  strong?: boolean;
 }) {
   const classes =
     "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium";
@@ -79,7 +82,7 @@ function ContactPill({
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-      className={`${classes} glass-control text-fg`}
+      className={strong ? `${classes} glass-control-solid` : `${classes} glass-control text-fg`}
     >
       {icon}
       {label}

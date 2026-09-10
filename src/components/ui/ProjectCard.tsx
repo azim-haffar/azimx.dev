@@ -54,18 +54,21 @@ function ProjectPill({
 /** Renders nothing when there's no real screenshot — no reserved/placeholder slot. */
 function Media({ project, wide }: { project: Project; wide?: boolean }) {
   if (!project.imageSrc) return null;
+  const aspectClass = wide
+    ? "aspect-21/9"
+    : project.imageAspect === "16/9"
+      ? "aspect-16/9"
+      : "aspect-4/3";
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-4xl bg-surface ${
-        wide ? "aspect-21/9" : "aspect-4/3"
-      }`}
+      className={`relative w-full overflow-hidden rounded-4xl border border-border bg-surface ${aspectClass}`}
     >
       <Image
         src={project.imageSrc}
         alt={project.imageAlt ?? `${project.title} screenshot`}
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className="object-cover"
+        className={project.imageFit === "contain" ? "object-contain" : "object-cover"}
       />
     </div>
   );
