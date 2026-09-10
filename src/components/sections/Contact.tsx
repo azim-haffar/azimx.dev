@@ -8,7 +8,7 @@ export function Contact() {
   const linkedin = socialLinks.find((s) => s.label === "LinkedIn");
 
   return (
-    <section id="contact" className="scroll-mt-24 bg-bg-subtle py-20 sm:py-24">
+    <section id="contact" className="ambient-glow scroll-mt-24 bg-bg-subtle py-20 sm:py-24">
       <Container className="flex flex-col items-center text-center">
         <p className="font-mono text-xs uppercase tracking-widest text-fg-subtle">
           Contact

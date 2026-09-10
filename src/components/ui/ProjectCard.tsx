@@ -51,7 +51,13 @@ function ProjectPill({
   );
 }
 
-/** Renders nothing when there's no real screenshot — no reserved/placeholder slot. */
+/**
+ * Renders nothing when there's no real screenshot — no reserved/placeholder
+ * slot. Outer box is a glass "mat" (translucent, blurred, small padding);
+ * the screenshot itself lives in a fully opaque inner box so the image is
+ * never blurred or covered by a translucent layer — only the frame around
+ * it is glass.
+ */
 function Media({ project, wide }: { project: Project; wide?: boolean }) {
   if (!project.imageSrc) return null;
   const aspectClass = wide
@@ -60,16 +66,18 @@ function Media({ project, wide }: { project: Project; wide?: boolean }) {
       ? "aspect-16/9"
       : "aspect-4/3";
   return (
-    <div
-      className={`relative w-full overflow-hidden rounded-4xl border border-border bg-surface ${aspectClass}`}
-    >
-      <Image
-        src={project.imageSrc}
-        alt={project.imageAlt ?? `${project.title} screenshot`}
-        fill
-        sizes="(min-width: 1024px) 50vw, 100vw"
-        className={project.imageFit === "contain" ? "object-contain" : "object-cover"}
-      />
+    <div className="glass-card w-full rounded-3xl p-2 sm:p-2.5">
+      <div
+        className={`relative w-full overflow-hidden rounded-[18px] bg-surface ${aspectClass}`}
+      >
+        <Image
+          src={project.imageSrc}
+          alt={project.imageAlt ?? `${project.title} screenshot`}
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className={project.imageFit === "contain" ? "object-contain" : "object-cover"}
+        />
+      </div>
     </div>
   );
 }
@@ -89,16 +97,18 @@ function ArchitectureVisual({ architecture }: { architecture: NonNullable<Projec
         href={architecture.imageSrc}
         target="_blank"
         rel="noopener noreferrer"
-        className="group mt-4 flex w-full max-w-sm flex-col gap-2"
+        className="group mx-auto mt-4 flex w-full max-w-4xl flex-col items-center gap-2"
       >
-        <span className="block w-full overflow-hidden rounded-2xl border border-border bg-surface transition-colors duration-150 group-hover:border-border-strong">
-          {/* eslint-disable-next-line @next/next/no-img-element -- vector diagram, not a next/image candidate */}
-          <img
-            src={architecture.imageSrc}
-            alt={architecture.imageAlt}
-            className="block h-auto w-full"
-            loading="lazy"
-          />
+        <span className="glass-card block w-full rounded-3xl p-2">
+          <span className="block overflow-hidden rounded-[18px] bg-surface">
+            {/* eslint-disable-next-line @next/next/no-img-element -- vector diagram, not a next/image candidate */}
+            <img
+              src={architecture.imageSrc}
+              alt={architecture.imageAlt}
+              className="block h-auto w-full"
+              loading="lazy"
+            />
+          </span>
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs font-medium text-fg-muted transition-colors duration-150 group-hover:text-fg">
           View full size

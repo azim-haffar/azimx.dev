@@ -202,3 +202,55 @@ body {
     0 1px 2px color-mix(in oklab, var(--color-fg) 15%, transparent),
     0 16px 32px -14px color-mix(in oklab, var(--color-fg) 45%, transparent);
 }
+
+/* Larger content surfaces (experience entry, skill group, project media
+ * frame). Same material language as the controls above, tuned for bigger
+ * areas: a bit more opaque so text stays comfortably readable, a lighter
+ * blur since these are bigger paint areas (kept cheap — see perf note).
+ * Built the same theme-aware way as everything above (color-mix against
+ * --color-bg/--color-surface) rather than fixed rgba, so light mode gets a
+ * real white-glass equivalent for free instead of reusing dark values. */
+.glass-card {
+  background: color-mix(in oklab, var(--color-bg) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid color-mix(in oklab, var(--color-fg) 10%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 40%, transparent),
+    0 16px 48px -24px color-mix(in oklab, var(--color-fg) 20%, transparent);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.dark .glass-card {
+  background: color-mix(in oklab, var(--color-surface) 62%, transparent);
+  border-color: color-mix(in oklab, white 9%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
+    0 20px 56px -26px color-mix(in oklab, black 55%, transparent);
+}
+
+.glass-card:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--color-fg) 16%, transparent);
+}
+
+.dark .glass-card:hover {
+  border-color: color-mix(in oklab, white 14%, transparent);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Ambient background lighting — extremely subtle, static (non-animated)  */
+/* radial glow applied to a couple of sections only (Hero, Contact).      */
+/* Opacity is intentionally very low; this is atmosphere, not a visual    */
+/* feature, and must never reduce body-text contrast.                    */
+/* ---------------------------------------------------------------------- */
+
+.ambient-glow {
+  background-image:
+    radial-gradient(55% 70% at 25% 0%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 70%),
+    radial-gradient(60% 60% at 85% 10%, color-mix(in oklab, var(--color-fg) 5%, transparent), transparent 70%);
+  background-repeat: no-repeat;
+}

@@ -9,7 +9,7 @@ export function Hero() {
   const linkedin = socialLinks.find((s) => s.label === "LinkedIn");
 
   return (
-    <section id="top" className="scroll-mt-28 pt-24 sm:pt-32 lg:pt-40">
+    <section id="top" className="ambient-glow scroll-mt-28 pt-24 sm:pt-32 lg:pt-40">
       <Container className="pb-16 sm:pb-20 lg:pb-24">
         <div className="animate-fade-up">
           <span className="glass-control inline-flex items-center rounded-full px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-fg-muted">

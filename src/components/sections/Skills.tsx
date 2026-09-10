@@ -11,10 +11,7 @@ export function Skills() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group) => (
-            <div
-              key={group.label}
-              className="rounded-2xl border border-border bg-bg p-5"
-            >
+            <div key={group.label} className="glass-card rounded-[20px] p-5">
               <h3 className="font-mono text-xs uppercase tracking-widest text-fg-subtle">
                 {group.label}
               </h3>

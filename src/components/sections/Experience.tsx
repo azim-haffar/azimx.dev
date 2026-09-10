@@ -13,7 +13,8 @@ export function Experience() {
           {experience.map((entry) => (
             <div
               key={entry.organization}
-              className="rounded-2xl border border-border border-l-2 border-l-accent bg-bg p-6 sm:p-8"
+              className="glass-card rounded-[22px] p-6 sm:p-8"
+              style={{ borderLeft: "2px solid var(--color-accent)" }}
             >
               <h3 className="text-xl font-semibold tracking-tight text-fg">
                 {entry.role}

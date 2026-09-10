@@ -115,7 +115,7 @@ export function Navbar() {
       <div className="pointer-events-auto w-full sm:max-w-4xl">
         <nav
           aria-label="Primary"
-          className="glass-surface flex h-14 w-full items-center justify-between gap-2 rounded-[1.4rem] px-4 sm:h-16 sm:rounded-full sm:px-3 sm:pl-6"
+          className="glass-surface flex h-14 w-full items-center justify-between gap-2 rounded-[1.4rem] px-4 sm:h-16 sm:rounded-[26px] sm:px-3 sm:pl-6"
         >
           <Link
             href="#top"
