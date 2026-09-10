@@ -74,6 +74,41 @@ function Media({ project, wide }: { project: Project; wide?: boolean }) {
   );
 }
 
+/** Secondary visual (e.g. an architecture diagram). Rendered at its natural
+ * aspect ratio so it's never cropped, and links to the full-size image. */
+function ArchitectureVisual({ architecture }: { architecture: NonNullable<Project["architecture"]> }) {
+  return (
+    <div className="border-t border-border pt-6">
+      <p className="font-mono text-xs uppercase tracking-widest text-fg-subtle">
+        Architecture
+      </p>
+      <p className="mt-2 max-w-xl text-sm leading-relaxed text-fg-muted">
+        {architecture.caption}
+      </p>
+      <a
+        href={architecture.imageSrc}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group mt-4 flex w-full max-w-sm flex-col gap-2"
+      >
+        <span className="block w-full overflow-hidden rounded-2xl border border-border bg-surface transition-colors duration-150 group-hover:border-border-strong">
+          {/* eslint-disable-next-line @next/next/no-img-element -- vector diagram, not a next/image candidate */}
+          <img
+            src={architecture.imageSrc}
+            alt={architecture.imageAlt}
+            className="block h-auto w-full"
+            loading="lazy"
+          />
+        </span>
+        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-fg-muted transition-colors duration-150 group-hover:text-fg">
+          View full size
+          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </span>
+      </a>
+    </div>
+  );
+}
+
 function ActionsRow({ project }: { project: Project }) {
   return (
     <div className="flex flex-wrap items-center gap-3">
@@ -169,6 +204,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             <ActionsRow project={project} />
           </div>
         </div>
+        {project.architecture ? (
+          <ArchitectureVisual architecture={project.architecture} />
+        ) : null}
       </article>
     );
   }

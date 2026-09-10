@@ -30,6 +30,14 @@ export interface Project {
   /** Overrides the split-layout media aspect ratio (default "4/3") to better
    * match the real screenshot and avoid excess letterboxing. */
   imageAspect?: "4/3" | "16/9";
+  /** Optional secondary visual (e.g. an architecture diagram) shown below the
+   * main project content. Rendered at its natural aspect ratio — never
+   * cropped — and links to the full-size image in a new tab. */
+  architecture?: {
+    imageSrc: string;
+    imageAlt: string;
+    caption: string;
+  };
   featured?: boolean;
 }
 

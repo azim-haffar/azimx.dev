@@ -34,6 +34,13 @@ export const projects: Project[] = [
     imageAlt:
       "OrderFlow dashboard showing order processing, Kafka status, Redis, PostgreSQL, and event activity",
     imageFit: "contain",
+    architecture: {
+      imageSrc: "/projects/orderflow-architecture.svg",
+      imageAlt:
+        "OrderFlow architecture showing the React frontend, Spring Boot application, Redis cache, PostgreSQL database, transactional outbox, Kafka order-events topic, and inventory processing flow.",
+      caption:
+        "Transactional outbox architecture with Kafka-based asynchronous order processing, Redis caching, PostgreSQL persistence, and pessimistic inventory locking.",
+    },
     featured: true,
   },
   {
