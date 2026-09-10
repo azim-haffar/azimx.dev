@@ -8,7 +8,7 @@ export function About() {
         <SectionHeading
           eyebrow="About"
           title="About & education"
-          description="Software Engineering student based in Türkiye, focused on backend development and building toward DevOps/cloud and ML/AI. Open to relocating for a paid European internship."
+          description="Software Engineering student based in Mersin, Türkiye, focused on backend development and building toward DevOps/cloud and ML/AI. Open to relocating for a paid European internship."
         />
 
         <div className="border-t border-border pt-6 lg:pt-0 lg:border-t-0 lg:pl-16 lg:border-l">
@@ -24,6 +24,10 @@ export function About() {
           <p className="mt-5 text-sm text-fg-muted">
             Expected graduation:{" "}
             <span className="font-medium text-fg">February 2028</span>
+          </p>
+          <p className="mt-3 text-sm text-fg-muted">
+            Languages: English C1 · German B1 (Goethe-certified) · Turkish
+            Native · Arabic Native
           </p>
         </div>
       </Container>

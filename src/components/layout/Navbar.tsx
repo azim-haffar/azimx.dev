@@ -139,14 +139,11 @@ export function Navbar() {
               );
             })}
             <ThemeToggle />
-            <Button
-              href={resumeUrl ?? undefined}
-              isPlaceholder={!resumeUrl}
-              variant="secondary"
-              className="ml-1"
-            >
-              Resume
-            </Button>
+            {resumeUrl ? (
+              <Button href={resumeUrl} variant="secondary" className="ml-1">
+                Resume
+              </Button>
+            ) : null}
           </div>
 
           <div className="flex items-center gap-2 md:hidden">
@@ -211,14 +208,11 @@ export function Navbar() {
                   </a>
                 );
               })}
-              <Button
-                href={resumeUrl ?? undefined}
-                isPlaceholder={!resumeUrl}
-                variant="secondary"
-                className="ml-auto"
-              >
-                Resume
-              </Button>
+              {resumeUrl ? (
+                <Button href={resumeUrl} variant="secondary" className="ml-auto">
+                  Resume
+                </Button>
+              ) : null}
             </div>
           </div>
         ) : null}

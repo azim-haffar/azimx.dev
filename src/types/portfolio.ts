@@ -19,6 +19,9 @@ export interface Project {
   liveDemo: ProjectLink;
   /** Case-study route, e.g. /projects/orderflow. Page may not exist yet. */
   caseStudyHref: string;
+  /** True once the case-study page has real, finished content. Until then the
+   * Case Study button is hidden and the route itself returns 404. */
+  caseStudyReady?: boolean;
   imageSrc?: string;
   imageAlt?: string;
   featured?: boolean;

@@ -7,7 +7,9 @@ import { Badge } from "@/components/ui/Badge";
 import { projects } from "@/data/projects";
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return projects.filter((project) => project.caseStudyReady).map((project) => ({
+    slug: project.slug,
+  }));
 }
 
 export async function generateMetadata({
@@ -28,7 +30,7 @@ export default async function ProjectPage({
 }) {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+  if (!project || !project.caseStudyReady) notFound();
 
   return (
     <section className="pt-28 pb-16 sm:pt-32 sm:pb-20">

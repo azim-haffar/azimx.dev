@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, ImageOff } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Project } from "@/types/portfolio";
 import { Badge } from "./Badge";
 import { GitHubIcon } from "@/components/icons/BrandIcons";
@@ -25,6 +25,7 @@ function StatusChip({ status }: { status: Project["status"] }) {
   );
 }
 
+/** Renders nothing when there's no valid destination — no disabled/"coming soon" state. */
 function ProjectPill({
   href,
   icon,
@@ -34,28 +35,14 @@ function ProjectPill({
   icon: React.ReactNode;
   label: string;
 }) {
-  const classes =
-    "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium";
-
-  if (!href) {
-    return (
-      <span
-        className={`${classes} glass-control cursor-not-allowed text-fg-subtle opacity-50`}
-        aria-disabled="true"
-        title={`${label} coming soon`}
-      >
-        {icon}
-        {label}
-      </span>
-    );
-  }
+  if (!href) return null;
 
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`${classes} glass-control text-fg`}
+      className="glass-control inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-fg"
       aria-label={`${label}: ${href}`}
     >
       {icon}
@@ -64,25 +51,9 @@ function ProjectPill({
   );
 }
 
-function MediaPlaceholder({ wide }: { wide?: boolean }) {
-  return (
-    <div
-      className={`relative w-full overflow-hidden rounded-4xl bg-surface ${
-        wide ? "aspect-21/9" : "aspect-4/3"
-      }`}
-    >
-      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-fg-subtle">
-        <ImageOff className="h-8 w-8" strokeWidth={1.1} aria-hidden="true" />
-        <span className="font-mono text-[11px] uppercase tracking-widest">
-          Screenshot pending
-        </span>
-      </div>
-    </div>
-  );
-}
-
+/** Renders nothing when there's no real screenshot — no reserved/placeholder slot. */
 function Media({ project, wide }: { project: Project; wide?: boolean }) {
-  if (!project.imageSrc) return <MediaPlaceholder wide={wide} />;
+  if (!project.imageSrc) return null;
   return (
     <div
       className={`relative w-full overflow-hidden rounded-4xl bg-surface ${
@@ -113,13 +84,15 @@ function ActionsRow({ project }: { project: Project }) {
         icon={<ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
         label="Demo"
       />
-      <Link
-        href={project.caseStudyHref}
-        className="glass-control-solid ml-auto inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium sm:ml-0"
-      >
-        Case study
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </Link>
+      {project.caseStudyReady ? (
+        <Link
+          href={project.caseStudyHref}
+          className="glass-control-solid ml-auto inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium sm:ml-0"
+        >
+          Case study
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      ) : null}
     </div>
   );
 }
@@ -129,12 +102,14 @@ const numeral = (n: number) => String(n + 1).padStart(2, "0");
 /**
  * Editorial project showcase. index 0 gets the largest "hero" treatment,
  * placeholder-status projects collapse to a quiet single block, and the
- * remaining projects alternate a media/text split.
+ * remaining projects alternate a media/text split. Media and the Case
+ * study link only render once a real asset/page exists.
  */
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isPlaceholder = project.status === "placeholder";
   const isHero = index === 0 && !isPlaceholder;
   const reverse = index % 2 === 1;
+  const hasMedia = Boolean(project.imageSrc);
 
   if (isPlaceholder) {
     return (
@@ -147,13 +122,15 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-fg-muted">
           {project.description}
         </p>
-        <Link
-          href={project.caseStudyHref}
-          className="glass-control mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-fg"
-        >
-          Case study
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
+        {project.caseStudyReady ? (
+          <Link
+            href={project.caseStudyHref}
+            className="glass-control mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-fg"
+          >
+            Case study
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        ) : null}
       </article>
     );
   }
@@ -194,11 +171,13 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
   }
 
   return (
-    <article className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-14">
-      <div className={reverse ? "lg:order-2" : ""}>
-        <Media project={project} />
-      </div>
-      <div className={reverse ? "lg:order-1" : ""}>
+    <article className={hasMedia ? "grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-14" : ""}>
+      {hasMedia ? (
+        <div className={reverse ? "lg:order-2" : ""}>
+          <Media project={project} />
+        </div>
+      ) : null}
+      <div className={hasMedia && reverse ? "lg:order-1" : ""}>
         <div className="flex items-center gap-3">
           <p className="font-mono text-xs text-fg-subtle">{numeral(index)}</p>
           <StatusChip status={project.status} />
