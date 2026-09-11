@@ -18,7 +18,9 @@ export function Hero() {
           <h1 className="mt-6 text-6xl font-semibold leading-[0.98] tracking-tight text-fg sm:text-7xl lg:text-8xl">
             Azim
             <br />
-            Haffar
+            <span className="bg-gradient-to-br from-fg via-fg to-accent bg-clip-text text-transparent">
+              Haffar
+            </span>
           </h1>
           <p className="mt-6 max-w-md text-xl leading-snug text-fg-muted sm:text-2xl">
             Backend-focused Software Engineering student building with Java,

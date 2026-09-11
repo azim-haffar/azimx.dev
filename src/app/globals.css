@@ -12,11 +12,20 @@
   --color-fg: #0a0a0b;
   --color-fg-muted: #3f3f46;
   --color-fg-subtle: #5f5f68;
-  /* Single restrained accent — used only for: nav active state, the
-     availability indicator, and one subtle emphasis border. */
+  /* Primary accent — used for: nav active state, the availability
+     indicator, and one subtle emphasis border. */
   --color-accent: #0f7a5c;
   --color-accent-fg: #ffffff;
   --color-ring: #0a0a0b;
+  /* Small supporting palette — used sparingly to give distinct visual
+     identity to specific groups (skills categories, status states) and
+     to add gentle, low-opacity color variety to ambient glow/hover. Not
+     used for body text or anything that needs to read as "on brand". */
+  --color-accent-blue: #2f6fed;
+  --color-accent-violet: #7c5cec;
+  --color-accent-amber: #c8790a;
+  --color-accent-rose: #d0396b;
+  --color-accent-cyan: #0891a8;
 }
 
 .dark {
@@ -32,6 +41,11 @@
   --color-accent: #34d399;
   --color-accent-fg: #0a0a0b;
   --color-ring: #f4f4f5;
+  --color-accent-blue: #6d9bff;
+  --color-accent-violet: #a894ff;
+  --color-accent-amber: #e2a53c;
+  --color-accent-rose: #ea6b98;
+  --color-accent-cyan: #3fc4dc;
 }
 
 @theme inline {
@@ -47,6 +61,11 @@
   --color-accent: var(--color-accent);
   --color-accent-fg: var(--color-accent-fg);
   --color-ring: var(--color-ring);
+  --color-accent-blue: var(--color-accent-blue);
+  --color-accent-violet: var(--color-accent-violet);
+  --color-accent-amber: var(--color-accent-amber);
+  --color-accent-rose: var(--color-accent-rose);
+  --color-accent-cyan: var(--color-accent-cyan);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
@@ -60,6 +79,18 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes glow-breathe {
+    0%,
+    100% {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
     }
   }
 }
@@ -200,7 +231,8 @@ body {
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, white 25%, transparent),
     0 1px 2px color-mix(in oklab, var(--color-fg) 15%, transparent),
-    0 16px 32px -14px color-mix(in oklab, var(--color-fg) 45%, transparent);
+    0 16px 32px -14px color-mix(in oklab, var(--color-fg) 45%, transparent),
+    0 12px 28px -16px color-mix(in oklab, var(--color-accent) 55%, transparent);
 }
 
 /* Larger content surfaces (experience entry, skill group, project media
@@ -234,23 +266,43 @@ body {
 
 .glass-card:hover {
   transform: translateY(-1px);
-  border-color: color-mix(in oklab, var(--color-fg) 16%, transparent);
+  border-color: color-mix(in oklab, var(--color-accent) 22%, var(--color-fg) 12%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 40%, transparent),
+    0 16px 48px -24px color-mix(in oklab, var(--color-fg) 20%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--color-accent) 10%, transparent);
 }
 
 .dark .glass-card:hover {
-  border-color: color-mix(in oklab, white 14%, transparent);
+  border-color: color-mix(in oklab, var(--color-accent) 25%, white 10%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
+    0 20px 56px -26px color-mix(in oklab, black 55%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--color-accent) 14%, transparent);
 }
 
 /* ---------------------------------------------------------------------- */
-/* Ambient background lighting — extremely subtle, static (non-animated)  */
-/* radial glow applied to a couple of sections only (Hero, Contact).      */
-/* Opacity is intentionally very low; this is atmosphere, not a visual    */
+/* Ambient background lighting — soft, slow-breathing radial glow applied */
+/* to a couple of sections only (Hero, Contact). Rendered on a ::before   */
+/* pseudo-element (behind all content) so the gentle animation never      */
+/* touches text. Opacity stays low; this is atmosphere, not a visual      */
 /* feature, and must never reduce body-text contrast.                    */
 /* ---------------------------------------------------------------------- */
 
 .ambient-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.ambient-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-image:
-    radial-gradient(55% 70% at 25% 0%, color-mix(in oklab, var(--color-accent) 10%, transparent), transparent 70%),
-    radial-gradient(60% 60% at 85% 10%, color-mix(in oklab, var(--color-fg) 5%, transparent), transparent 70%);
+    radial-gradient(50% 65% at 20% 0%, color-mix(in oklab, var(--color-accent) 14%, transparent), transparent 70%),
+    radial-gradient(55% 55% at 85% 8%, color-mix(in oklab, var(--color-accent-blue) 10%, transparent), transparent 70%),
+    radial-gradient(45% 50% at 60% 90%, color-mix(in oklab, var(--color-accent-violet) 7%, transparent), transparent 70%);
   background-repeat: no-repeat;
+  animation: glow-breathe 12s ease-in-out infinite;
 }
