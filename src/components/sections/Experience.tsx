@@ -9,7 +9,7 @@ export function Experience() {
       <Container>
         <SectionHeading eyebrow="Experience" title="Professional experience" />
 
-        <div className="mt-10 flex flex-col gap-6">
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
           {experience.map((entry) => (
             <div
               key={entry.organization}

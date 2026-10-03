@@ -11,11 +11,11 @@ export function FeaturedProjects() {
       <Container>
         <SectionHeading
           eyebrow="Work"
-          title="Featured projects"
-          description="Projects I've built and can speak to in depth — architecture, trade-offs, and what I'd do differently."
+          title="Selected engineering work"
+          description="What I built, how it works, and where it still needs work. Explore the code or read the engineering notes."
         />
 
-        <div className="mt-12 flex flex-col gap-16 sm:mt-16 sm:gap-24">
+        <div className="mt-10 flex flex-col">
           {featured.map((project, index) => (
             <ProjectCard key={project.slug} project={project} index={index} />
           ))}

@@ -45,3 +45,9 @@ docs/
 .claude/
 Thumbs.db
 .DS_Store
+
+# Local project inspection and private planning
+/.review/
+/CAREER-ASSETS-RECORD.md
+/PORTFOLIO-WORKING-NOTES.md
+/qa/

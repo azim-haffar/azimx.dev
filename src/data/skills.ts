@@ -1,8 +1,8 @@
 import type { SkillGroup } from "@/types/portfolio";
 
 /**
- * Source of truth: docs/Career-Profile.txt (section 11) plus verified
- * project/client work. Only technologies backed by genuine completed work.
+ * Career Master Profile and source inspection, 3 October 2026.
+ * Public emphasis follows professional assignments and inspected projects.
  */
 export const skillGroups: SkillGroup[] = [
   {
@@ -38,17 +38,17 @@ export const skillGroups: SkillGroup[] = [
     skills: ["JUnit", "Mockito", "Testcontainers", "integration testing"],
   },
   {
-    label: "AI / ML",
+    label: "Applied AI & ML tooling",
     skills: [
       "LLM API integration",
-      "RAG pipelines",
-      "embeddings & retrieval",
-      "prompt engineering",
-      "LangChain",
+      "LLM evaluation workflows",
+      "Response validation",
+      "PyTorch",
+      "Training visualization",
     ],
   },
   {
     label: "Frontend",
-    skills: ["React", "TypeScript"],
+    skills: ["React", "JavaScript", "TypeScript (portfolio)"],
   },
 ];

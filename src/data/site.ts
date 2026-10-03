@@ -10,7 +10,7 @@ export const siteConfig = {
   url: "https://azimx.dev",
   title: "Azim Haffar — Software Engineering Student",
   description:
-    "Software Engineering student building backend systems and growing DevOps/cloud capabilities. Seeking paid technical internships in Europe.",
+    "Software Engineering student with backend internship experience at Trendyol and paid Python/LLM development experience. Open to paid technical internships from 17 January 2027.",
   email: "azim.haffar@gmail.com",
   emailIsPlaceholder: false,
 };
@@ -23,7 +23,7 @@ export const navLinks: NavLink[] = [
   { label: "Contact", href: "#contact" },
 ];
 
-export const resumeUrl: string | null = "/Azim_Haffar_CV_Backend.pdf";
+export const resumeUrl: string | null = "/Azim_Haffar_Portfolio_Resume.pdf";
 
 export const socialLinks: SocialLink[] = [
   {

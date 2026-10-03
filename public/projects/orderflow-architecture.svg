@@ -1,5 +1,5 @@
 <svg viewBox="0 0 1000 1330" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-  <title>OrderFlow — Verified Runtime Architecture</title>
+  <title>OrderFlow — Source Architecture</title>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#6e7681" />
@@ -8,8 +8,8 @@
 
   <rect x="0" y="0" width="1000" height="1330" fill="#0d1117" />
 
-  <text x="500" y="44" text-anchor="middle" fill="#e6edf3" font-size="26" font-weight="700">OrderFlow — Runtime Architecture</text>
-  <text x="500" y="68" text-anchor="middle" fill="#8b949e" font-size="13">Verified from backend/src/main/java/com/orderflow and docker-compose.yml</text>
+  <text x="500" y="44" text-anchor="middle" fill="#e6edf3" font-size="26" font-weight="700">OrderFlow — Source Architecture</text>
+  <text x="500" y="68" text-anchor="middle" fill="#8b949e" font-size="13">Source inspected 3 October 2026 · runtime behavior not rerun</text>
 
   <!-- connecting lines (drawn first, under boxes) -->
   <g stroke="#6e7681" stroke-width="1.8" fill="none">

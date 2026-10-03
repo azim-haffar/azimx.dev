@@ -39,6 +39,10 @@ export interface Project {
     caption: string;
   };
   featured?: boolean;
+  focus?: string;
+  capabilities?: string[];
+  limitations?: string;
+  caseStudy?: { title: string; body: string }[];
 }
 
 export interface ExperienceEntry {

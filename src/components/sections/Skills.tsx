@@ -3,16 +3,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { skillGroups } from "@/data/skills";
 
-// Purely visual — gives each skill category a distinct, low-key identity
-// color so the grid reads as varied rather than one flat block. Doesn't
-// affect content; falls back to the default accent for any unlisted group.
+// Category highlights follow the portfolio's emerald and blue palette.
 const groupAccent: Record<string, string> = {
   Backend: "var(--color-accent)",
-  "Cloud & DevOps": "var(--color-accent-amber)",
-  "Data / Messaging": "var(--color-accent-blue)",
-  Testing: "var(--color-accent-violet)",
-  "AI / ML": "var(--color-accent-cyan)",
-  Frontend: "var(--color-accent-rose)",
+  "Cloud & DevOps": "var(--color-blue)",
+  "Data / Messaging": "var(--color-blue)",
+  Testing: "var(--color-accent)",
+  "Applied AI & ML tooling": "var(--color-accent)",
+  Frontend: "var(--color-blue)",
 };
 
 export function Skills() {

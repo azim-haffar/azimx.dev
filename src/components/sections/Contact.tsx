@@ -17,8 +17,9 @@ export function Contact() {
           Let&apos;s work together.
         </h2>
         <p className="mt-4 max-w-md text-base leading-relaxed text-fg-muted">
-          Open to paid technical internships in Europe — DevOps/Cloud,
-          Backend, or ML/AI.
+          Open to paid technical internships from 17 January 2027, with Europe
+          preferred and Türkiye also welcome. Available now for paid remote work
+          that fits university commitments.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

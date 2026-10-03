@@ -118,7 +118,7 @@ export function Navbar() {
           className="glass-surface flex h-14 w-full items-center justify-between gap-2 rounded-[1.4rem] px-4 sm:h-16 sm:rounded-[26px] sm:px-3 sm:pl-6"
         >
           <Link
-            href="#top"
+            href="/#top"
             className="shrink-0 font-mono text-sm font-semibold tracking-tight text-fg"
           >
             azimx.dev
@@ -128,7 +128,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={`/${link.href}`}
                 aria-current={activeHref === link.href ? "true" : undefined}
                 className={`rounded-full px-3 py-2 text-sm transition-colors duration-150 hover:bg-surface hover:text-fg ${
                   activeHref === link.href ? "text-accent" : "text-fg-muted"
@@ -200,7 +200,7 @@ export function Navbar() {
               {navLinks.map((link, index) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={`/${link.href}`}
                   ref={index === 0 ? firstLinkRef : undefined}
                   onClick={() => setIsOpen(false)}
                   aria-current={activeHref === link.href ? "true" : undefined}

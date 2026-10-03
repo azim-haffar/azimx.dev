@@ -1,254 +1,38 @@
-import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import type { Project } from "@/types/portfolio";
-import { Badge } from "./Badge";
+import Link from "next/link";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { GitHubIcon } from "@/components/icons/BrandIcons";
+import type { Project } from "@/types/portfolio";
 
-const statusLabel: Record<Project["status"], string> = {
-  completed: "Completed",
-  "in-progress": "In Progress",
-  placeholder: "Details Pending",
-};
-
-function StatusChip({ status }: { status: Project["status"] }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 font-mono text-[11px] text-fg-subtle">
-      <span
-        className={`h-1.5 w-1.5 rounded-full ${
-          status === "completed" ? "bg-fg" : "bg-fg-subtle"
-        }`}
-        aria-hidden="true"
-      />
-      {statusLabel[status]}
-    </span>
-  );
-}
-
-/** Renders nothing when there's no valid destination — no disabled/"coming soon" state. */
-function ProjectPill({
-  href,
-  icon,
-  label,
-}: {
-  href: string | null;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  if (!href) return null;
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="glass-control inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-fg"
-      aria-label={`${label}: ${href}`}
-    >
-      {icon}
-      {label}
-    </a>
-  );
-}
-
-/**
- * Renders nothing when there's no real screenshot — no reserved/placeholder
- * slot. Outer box is a glass "mat" (translucent, blurred, small padding);
- * the screenshot itself lives in a fully opaque inner box so the image is
- * never blurred or covered by a translucent layer — only the frame around
- * it is glass.
- */
-function Media({ project, wide }: { project: Project; wide?: boolean }) {
-  if (!project.imageSrc) return null;
-  const aspectClass = wide
-    ? "aspect-21/9"
-    : project.imageAspect === "16/9"
-      ? "aspect-16/9"
-      : "aspect-4/3";
-  return (
-    <div className="glass-card w-full rounded-3xl p-2 sm:p-2.5">
-      <div
-        className={`relative w-full overflow-hidden rounded-[18px] bg-surface ${aspectClass}`}
-      >
-        <Image
-          src={project.imageSrc}
-          alt={project.imageAlt ?? `${project.title} screenshot`}
-          fill
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          className={project.imageFit === "contain" ? "object-contain" : "object-cover"}
-        />
-      </div>
-    </div>
-  );
-}
-
-/** Secondary visual (e.g. an architecture diagram). Rendered at its natural
- * aspect ratio so it's never cropped, and links to the full-size image. */
-function ArchitectureVisual({ architecture }: { architecture: NonNullable<Project["architecture"]> }) {
-  return (
-    <div className="border-t border-border pt-6">
-      <p className="font-mono text-xs uppercase tracking-widest text-fg-subtle">
-        Architecture
-      </p>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-fg-muted">
-        {architecture.caption}
-      </p>
-      <a
-        href={architecture.imageSrc}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group mx-auto mt-4 flex w-full max-w-4xl flex-col items-center gap-2"
-      >
-        <span className="glass-card block w-full rounded-3xl p-2">
-          <span className="block overflow-hidden rounded-[18px] bg-surface">
-            {/* eslint-disable-next-line @next/next/no-img-element -- vector diagram, not a next/image candidate */}
-            <img
-              src={architecture.imageSrc}
-              alt={architecture.imageAlt}
-              className="block h-auto w-full"
-              loading="lazy"
-            />
-          </span>
-        </span>
-        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-fg-muted transition-colors duration-150 group-hover:text-fg">
-          View full size
-          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-        </span>
-      </a>
-    </div>
-  );
-}
-
-function ActionsRow({ project }: { project: Project }) {
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <ProjectPill
-        href={project.github.href}
-        icon={<GitHubIcon className="h-4 w-4" aria-hidden="true" />}
-        label="Code"
-      />
-      <ProjectPill
-        href={project.liveDemo.href}
-        icon={<ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
-        label="Demo"
-      />
-      {project.caseStudyReady ? (
-        <Link
-          href={project.caseStudyHref}
-          className="glass-control-solid ml-auto inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium sm:ml-0"
-        >
-          Case study
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
-      ) : null}
-    </div>
-  );
-}
-
-const numeral = (n: number) => String(n + 1).padStart(2, "0");
-
-/**
- * Editorial project showcase. index 0 gets the largest "hero" treatment,
- * placeholder-status projects collapse to a quiet single block, and the
- * remaining projects alternate a media/text split. Media and the Case
- * study link only render once a real asset/page exists.
- */
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const isPlaceholder = project.status === "placeholder";
-  const isHero = index === 0 && !isPlaceholder;
-  const reverse = index % 2 === 1;
-  const hasMedia = Boolean(project.imageSrc);
-
-  if (isPlaceholder) {
-    return (
-      <article className="rounded-4xl border border-border bg-bg-subtle px-8 py-14 text-center sm:px-16">
-        <p className="font-mono text-xs text-fg-subtle">{numeral(index)}</p>
-        <div className="mt-4 flex items-center justify-center gap-3">
-          <h3 className="text-2xl font-semibold text-fg">{project.title}</h3>
-          <StatusChip status={project.status} />
-        </div>
-        <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-fg-muted">
-          {project.description}
-        </p>
-        {project.caseStudyReady ? (
-          <Link
-            href={project.caseStudyHref}
-            className="glass-control mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-fg"
-          >
-            Case study
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        ) : null}
-      </article>
-    );
-  }
-
-  if (isHero) {
-    return (
-      <article className="flex flex-col gap-8">
-        <Media project={project} wide />
-        <div className="grid gap-8 md:grid-cols-2 md:gap-12">
-          <div>
-            <div className="flex items-center gap-3">
-              <p className="font-mono text-xs text-fg-subtle">{numeral(index)}</p>
-              <StatusChip status={project.status} />
-            </div>
-            <h3 className="mt-3 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
-              {project.title}
-            </h3>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-fg-muted">
-              {project.description}
-            </p>
-            {project.statusNote ? (
-              <p className="mt-3 font-mono text-xs text-fg-subtle">
-                {project.statusNote}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex flex-col justify-between gap-6">
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <Badge key={tech}>{tech}</Badge>
-              ))}
-            </div>
-            <ActionsRow project={project} />
-          </div>
-        </div>
-        {project.architecture ? (
-          <ArchitectureVisual architecture={project.architecture} />
-        ) : null}
-      </article>
-    );
-  }
-
   return (
-    <article className={hasMedia ? "grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-14" : ""}>
-      {hasMedia ? (
-        <div className={reverse ? "lg:order-2" : ""}>
-          <Media project={project} />
-        </div>
-      ) : null}
-      <div className={hasMedia && reverse ? "lg:order-1" : ""}>
-        <div className="flex items-center gap-3">
-          <p className="font-mono text-xs text-fg-subtle">{numeral(index)}</p>
-          <StatusChip status={project.status} />
-        </div>
-        <h3 className="mt-3 text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
-          {project.title}
-        </h3>
-        <p className="mt-4 max-w-md text-sm leading-relaxed text-fg-muted">
-          {project.description}
-        </p>
-        {project.statusNote ? (
-          <p className="mt-3 font-mono text-xs text-fg-subtle">{project.statusNote}</p>
-        ) : null}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {project.technologies.map((tech) => (
-            <Badge key={tech}>{tech}</Badge>
-          ))}
-        </div>
-        <div className="mt-6">
-          <ActionsRow project={project} />
+    <article className="project-card grid gap-7 border-t border-border py-8 md:grid-cols-[0.85fr_1.15fr] md:gap-10 sm:py-10">
+      <div>
+        {project.imageSrc ? (
+          <div className="relative aspect-16/9 overflow-hidden rounded-xl border border-border bg-surface">
+            <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-contain" />
+          </div>
+        ) : (
+          <div className="metric-visual flex aspect-16/9 flex-col justify-center rounded-xl border border-border px-8" role="img" aria-label="Illustrative training curves, not measured results">
+            <p className="font-mono text-xs text-blue">TRAIN / OBSERVE / INSPECT</p>
+            <svg viewBox="0 0 320 90" className="mt-5 w-full" fill="none"><path d="M0 5 L25 25 L45 18 L65 44 L90 37 L115 59 L140 52 L170 69 L200 66 L230 78 L260 74 L290 80 L320 79" stroke="var(--color-accent)" strokeWidth="3" /><path d="M0 15 L30 35 L60 29 L90 50 L120 43 L150 60 L180 51 L210 63 L240 56 L270 64 L320 60" stroke="var(--color-blue)" strokeWidth="2" strokeDasharray="5 5" /></svg>
+            <p className="mt-4 font-mono text-[10px] text-fg-subtle">Illustrative curves · not measured results</p>
+          </div>
+        )}
+      </div>
+      <div>
+        <p className="eyebrow">{String(index + 1).padStart(2, "0")} / {project.focus}</p>
+        <h3 className="mt-3 text-3xl font-semibold tracking-tight">{project.title}</h3>
+        <p className="mt-3 text-base leading-relaxed text-fg-muted">{project.description}</p>
+        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-fg-muted">
+          {project.capabilities?.map((item) => <li key={item} className="flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-accent" aria-hidden="true" />{item}</li>)}
+        </ul>
+        {project.limitations && <p className="mt-4 text-xs leading-relaxed text-fg-subtle"><span className="font-medium text-fg-muted">Current limits:</span> {project.limitations}</p>}
+        <p className="mt-4 font-mono text-xs leading-relaxed text-blue">{project.technologies.join(" / ")}</p>
+        <div className="mt-6 flex flex-wrap items-center gap-5">
+          {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 py-2 text-sm font-medium"><GitHubIcon className="h-4 w-4" aria-hidden="true" />View code <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
+          {project.caseStudyReady && <Link href={project.caseStudyHref} className="inline-flex items-center gap-2 py-2 text-sm font-medium text-accent">Engineering notes <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
+          {project.liveDemo.href && <a href={project.liveDemo.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 py-2 text-sm font-medium text-accent">Live demo <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
         </div>
       </div>
     </article>
