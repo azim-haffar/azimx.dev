@@ -37,7 +37,7 @@
     <text x="440" y="588">publish</text>
     <text x="440" y="716">consume</text>
     <text x="420" y="844">invoke</text>
-    <text x="560" y="967">lock product row,</text>
+    <text x="560" y="967">lock order + product,</text>
     <text x="560" y="982">update stock + order status</text>
     <text x="740" y="896">evict on confirm</text>
   </g>

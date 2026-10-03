@@ -25,7 +25,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <h1 className="mt-4 text-5xl font-semibold tracking-tight sm:text-6xl">{project.title}</h1>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed text-fg-muted">{project.description}</p>
         {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 py-2 font-medium text-accent">Inspect the repository <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
-        <p className="mt-4 font-mono text-xs leading-relaxed text-fg-subtle">Source reviewed 3 October 2026 · Runtime tests not rerun</p>
+        <p className="mt-4 font-mono text-xs leading-relaxed text-fg-subtle">Source reviewed 3 October 2026 · 10 Java tests passed in GitHub CI</p>
         {project.architecture && <figure className="my-10 rounded-xl border border-border bg-surface p-4 sm:p-6">
           {/* eslint-disable-next-line @next/next/no-img-element -- full vector architecture diagram */}
           <img src={project.architecture.imageSrc} alt={project.architecture.imageAlt} className="h-auto w-full" />
