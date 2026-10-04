@@ -15,7 +15,7 @@ export function FeaturedProjects() {
           description="What I built, how it works, and where it still needs work. Explore the code or read the engineering notes."
         />
 
-        <div className="mt-10 flex flex-col">
+        <div className="mt-10 flex flex-col gap-6">
           {featured.map((project, index) => (
             <ProjectCard key={project.slug} project={project} index={index} />
           ))}

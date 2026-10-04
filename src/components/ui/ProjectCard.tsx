@@ -6,7 +6,7 @@ import type { Project } from "@/types/portfolio";
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="project-card grid gap-7 border-t border-border py-8 md:grid-cols-[0.85fr_1.15fr] md:gap-10 sm:py-10">
+    <article className={`project-card grid gap-7 rounded-2xl border border-border p-5 md:grid-cols-[0.85fr_1.15fr] md:gap-10 sm:p-8 ${index === 0 ? "project-featured" : ""}`}>
       <div>
         {project.imageSrc ? (
           <div className="relative aspect-16/9 overflow-hidden rounded-xl border border-border bg-surface">

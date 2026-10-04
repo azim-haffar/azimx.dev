@@ -28,3 +28,13 @@ npm run build
 Only enable demo links after checking them. Keep planned work separate from implemented features, and distinguish source inspection from runtime verification. Employer/client material is limited to names and high-level contributions.
 
 The site supports light and dark themes, reduced motion, and an explicit background-motion control. Publishing requires a separate review.
+
+## Weekly review (about 30 minutes)
+
+- Check the public résumé download, contact links, mobile menu, and project pages.
+- Update capabilities and limits only when source or runtime evidence changes.
+- Keep availability and graduation dates consistent with the résumé.
+- Reorder projects when a new project supplies stronger engineering evidence.
+- Run the checks above and review both themes before publishing visual changes.
+
+OrderFlow has an interactive architecture explanation. It is not connected to its backend and does not substitute for runtime tests or a recorded demonstration.

@@ -12,9 +12,9 @@ export function Hero() {
       <Container className="relative pb-16 sm:pb-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
           <div className="animate-fade-up">
-            <p className="eyebrow">Azim Haffar / Software Engineering Student</p>
+            <p className="eyebrow flex items-center gap-3"><span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />Azim Haffar / Software Engineering Student</p>
             <h1 className="mt-6 text-5xl font-semibold leading-[1.06] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
-              Backend thinking.<br /><span className="text-accent">Practical software.</span>
+              Backend thinking.<br /><span className="hero-gradient">Practical software.</span>
             </h1>
             <p className="mt-7 max-w-lg text-lg leading-relaxed text-fg-muted sm:text-xl">
               I build with Java and Python, from event-driven backends to applied AI tools. My experience includes a backend internship at Trendyol and paid Python/LLM development for Kvote.
@@ -26,6 +26,7 @@ export function Hero() {
             <p className="mt-6 max-w-lg text-sm leading-relaxed text-fg-subtle">Full-time internships from 17 January 2027 · 4–12 months · Open to relocation</p>
           </div>
           <div className="system-panel animate-fade-up rounded-2xl border border-border p-6 sm:p-8">
+            <div className="signal-track mb-6" aria-hidden="true"><span /><span /><span /></div>
             <div className="flex items-center justify-between gap-4 border-b border-border pb-5">
               <span className="eyebrow">Inside OrderFlow</span>
               <span className="font-mono text-xs text-blue">01 / Selected work</span>
@@ -38,7 +39,7 @@ export function Hero() {
                 ["02", "Persist order + event together", "PostgreSQL · Transactional outbox"],
                 ["03", "Publish, then process inventory", "Kafka · Database row locking"],
               ].map(([number, title, detail]) => (
-                <li key={number} className="flex items-start gap-4">
+                <li key={number} className="pipeline-node flex items-start gap-4">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border font-mono text-xs text-blue">{number}</span>
                   <div><p className="text-sm font-medium">{title}</p><p className="mt-1 text-xs text-fg-subtle">{detail}</p></div>
                 </li>

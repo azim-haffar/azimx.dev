@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
+import { PortfolioMotion } from "@/components/ui/PortfolioMotion";
 
 const geistSans = localFont({
   src: "./fonts/geist-latin.woff2",
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-bg text-fg font-sans">
         <a href="#main-content" className="skip-link">Skip to content</a>
         <Navbar />
+        <PortfolioMotion />
         <main id="main-content" tabIndex={-1} className="flex-1">{children}</main>
         <Footer />
       </body>
