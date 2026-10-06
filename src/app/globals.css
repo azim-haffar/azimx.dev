@@ -306,20 +306,36 @@ html[data-motion-paused="true"] .signal-track span, html[data-motion-paused="tru
 @media (max-width: 640px) { .hero-section { min-height: auto; } }
 @media (prefers-reduced-motion: reduce) { .signal-track span { animation: none; left: 40%; } .reveal-ready { opacity: 1; transform: none; } .project-card:hover, .flow-step:hover, .project-card:hover img { transform: none; } }
 
-/* A quiet, compact index with no repeated skills or interactive chrome. */
-.clean-toolkit-row { display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: baseline; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--color-border); }
-.clean-toolkit-row:last-child { border-bottom: 0; }
-@media (max-width: 640px) { .clean-toolkit-row { grid-template-columns: 1fr; gap: 3px; padding: 11px 0; } }
-
-/* Compact logos and on-demand interactions; motion runs only on input. */
-.interactive-toolkit .clean-toolkit-row { padding: 10px 0; transition: background-color .2s; }
-.toolkit-row-selected { background: color-mix(in oklab, var(--color-accent) 3%, var(--color-bg)); }
-.toolkit-skill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px; border: 1px solid transparent; border-radius: 6px; color: var(--color-fg-muted); font-size: 12px; line-height: 20px; cursor: pointer; transition: color .18s, border-color .18s, background .18s, transform .18s; }
-.toolkit-mini-logo { flex-shrink: 0; background: #eef3f8; border-radius: 3px; padding: 1px; transition: transform .25s ease; }
-.toolkit-skill:hover { background: var(--color-bg-subtle); color: var(--color-fg); transform: translateY(-2px); }
-.toolkit-skill:hover .toolkit-mini-logo { transform: rotate(-8deg) scale(1.12); }
-.toolkit-skill-selected { color: var(--color-accent); border-color: color-mix(in oklab, var(--color-accent) 40%, var(--color-border)); background: color-mix(in oklab, var(--color-accent) 7%, var(--color-bg)); }
-.toolkit-context { min-height: 45px; }
-.toolkit-context-enter { animation: toolkit-context-in .2s ease-out; }
-@keyframes toolkit-context-in { from { opacity: .5; transform: translateY(3px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .toolkit-context-enter { animation: none; } .toolkit-skill:hover, .toolkit-skill:hover .toolkit-mini-logo { transform: none; } }
+/* Compact toolkit studio: input-driven motion and evidence on demand. */
+.toolkit-studio { position: relative; isolation: isolate; overflow: hidden; border: 1px solid color-mix(in oklab, var(--color-blue) 25%, var(--color-border)); border-radius: 20px; background: var(--color-bg); box-shadow: 0 24px 70px -55px var(--color-blue); --spot-x: 50%; --spot-y: 0px; }
+.toolkit-studio::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(340px circle at var(--spot-x) var(--spot-y), color-mix(in oklab, var(--color-blue) 8%, transparent), transparent 75%); opacity: 0; transition: opacity .3s; }
+.toolkit-studio:hover::before { opacity: 1; }
+.toolkit-studio-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 24px; border-bottom: 1px solid var(--color-border); background: linear-gradient(110deg, color-mix(in oklab, var(--color-accent) 5%, var(--color-bg)), color-mix(in oklab, var(--color-blue) 5%, var(--color-bg))); color: var(--color-fg-subtle); font: 10px var(--font-geist-mono), monospace; letter-spacing: .08em; }
+.toolkit-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 10px color-mix(in oklab, var(--color-accent) 40%, transparent); }
+.toolkit-studio-list { padding: 0 24px; }
+.toolkit-studio-row { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 18px; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--color-border); transition: background .25s; }
+.toolkit-studio-row:last-child { border-bottom: 0; }
+.toolkit-area { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 500; line-height: 1.5; }
+.toolkit-area-icon { flex-shrink: 0; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--color-border); border-radius: 11px; color: var(--color-fg-subtle); background: var(--color-bg-subtle); transition: color .25s, border-color .25s; }
+.toolkit-area-number { display: block; margin-bottom: 2px; font: 9px var(--font-geist-mono), monospace; color: var(--color-fg-subtle); }
+.toolkit-studio-row.is-active .toolkit-area-icon { color: var(--color-accent); border-color: var(--color-accent); }
+.studio-tool { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 5px 9px 5px 5px; border: 1px solid transparent; border-radius: 10px; color: var(--color-fg-muted); font-size: 13px; line-height: 1.5; cursor: pointer; transition: transform .2s cubic-bezier(.2,.8,.3,1), background .2s, border-color .2s, box-shadow .2s, color .2s; }
+.studio-tool-icon { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px; color: var(--color-blue); background: var(--color-bg-subtle); transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+.studio-tool-icon img { border-radius: 4px; background: #eef3f8; padding: 2px; }
+.studio-tool:hover, .studio-tool:focus-visible { transform: translateY(-3px); background: var(--color-bg-subtle); border-color: var(--color-border-strong); box-shadow: 0 8px 16px -12px var(--color-blue); color: var(--color-fg); }
+.studio-tool:hover .studio-tool-icon { transform: rotate(-7deg) scale(1.08); }
+.studio-tool:active { transform: translateY(0) scale(.97); }
+.studio-tool.is-selected { background: color-mix(in oklab, var(--color-accent) 8%, var(--color-bg)); border-color: color-mix(in oklab, var(--color-accent) 45%, var(--color-border)); color: var(--color-accent); }
+.studio-tool.is-selected::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--color-accent); pointer-events: none; animation: toolkit-selection-ring .45s ease-out forwards; }
+@keyframes toolkit-selection-ring { from { opacity: .5; transform: scale(.96); } to { opacity: 0; transform: scale(1.12); } }
+.studio-selected-check { flex-shrink: 0; }
+.studio-insight { min-height: 91px; padding: 18px 24px; border-top: 1px solid var(--color-border); background: linear-gradient(110deg, color-mix(in oklab, var(--color-accent) 4%, var(--color-bg)), color-mix(in oklab, var(--color-blue) 4%, var(--color-bg))); display: flex; align-items: center; }
+.studio-insight-enter { width: 100%; display: flex; align-items: center; gap: 20px; animation: toolkit-insight-in .28s ease-out; }
+@keyframes toolkit-insight-in { from { opacity: .4; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.studio-evidence-link { display: inline-flex; gap: 5px; align-items: center; color: var(--color-blue); font-size: 12px; font-weight: 500; min-height: 38px; }
+.studio-evidence-link:hover { text-decoration: underline; }
+.studio-reset { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--color-border); border-radius: 10px; color: var(--color-fg-subtle); cursor: pointer; }
+.studio-reset:hover { color: var(--color-fg); background: var(--color-bg-subtle); }
+@media (max-width: 640px) { .toolkit-studio-bar { padding: 14px 16px; font-size: 9px; } .toolkit-studio-list { padding: 0 14px; } .toolkit-studio-row { grid-template-columns: 1fr; gap: 9px; padding: 14px 0; } .toolkit-area { font-size: 13px; } .toolkit-area-number { display: inline; margin-right: 8px; } .toolkit-area > span:last-child { display: flex; align-items: baseline; } .toolkit-area-icon { width: 28px; height: 28px; border-radius: 8px; } .studio-tool { min-height: 44px; font-size: 14px; padding: 5px 8px 5px 4px; } .studio-insight { padding: 16px; } .studio-insight-enter { flex-wrap: wrap; gap: 10px; } .studio-insight-enter > div:first-child { flex-basis: 100%; } .studio-reset, .studio-evidence-link { min-height: 44px; } .studio-reset { width: 44px; } }
+@media (hover: none) { .toolkit-studio::before { display: none; } }
+@media (prefers-reduced-motion: reduce) { .toolkit-studio::before { display: none; } .studio-tool.is-selected::after, .studio-insight-enter { animation: none; } .studio-tool:hover, .studio-tool:focus-visible, .studio-tool:active, .studio-tool:hover .studio-tool-icon { transform: none; } }
