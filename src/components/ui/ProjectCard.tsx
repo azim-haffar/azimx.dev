@@ -10,7 +10,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       <div>
         {project.imageSrc ? (
           <div className="relative aspect-16/9 overflow-hidden rounded-xl border border-border bg-surface">
-            <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-contain" />
+            <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 768px) 40vw, 100vw" className={project.imageFit === "cover" ? "object-cover" : "object-contain"} style={{ objectPosition: project.imagePosition ?? "center" }} />
           </div>
         ) : (
           <div className="metric-visual flex aspect-16/9 flex-col justify-center rounded-xl border border-border px-8" role="img" aria-label="Illustrative training curves, not measured results">
@@ -30,9 +30,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         {project.limitations && <p className="mt-4 text-xs leading-relaxed text-fg-subtle"><span className="font-medium text-fg-muted">Current limits:</span> {project.limitations}</p>}
         <p className="mt-4 font-mono text-xs leading-relaxed text-blue">{project.technologies.join(" / ")}</p>
         <div className="mt-6 flex flex-wrap items-center gap-5">
-          {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 py-2 text-sm font-medium"><GitHubIcon className="h-4 w-4" aria-hidden="true" />View code <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
-          {project.caseStudyReady && <Link href={project.caseStudyHref} className="inline-flex items-center gap-2 py-2 text-sm font-medium text-accent">Engineering notes <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
-          {project.liveDemo.href && <a href={project.liveDemo.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 py-2 text-sm font-medium text-accent">Live demo <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
+          {project.caseStudyReady && <Link href={project.caseStudyHref} className="inline-flex items-center gap-2 py-2 text-sm font-medium text-accent">Case study <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
+          {project.demoGuideHref && <Link href={project.demoGuideHref} className="inline-flex items-center gap-2 py-2 text-sm font-medium">Demo guide <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>}
+          {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 py-2 text-sm font-medium"><GitHubIcon className="h-4 w-4" aria-hidden="true" />Code <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
         </div>
       </div>
     </article>

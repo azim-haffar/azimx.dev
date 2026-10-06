@@ -24,6 +24,13 @@ export interface Project {
   caseStudyReady?: boolean;
   imageSrc?: string;
   imageAlt?: string;
+  imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imagePosition?: string;
+  verification?: string;
+  demoGuideHref?: string;
+  evidenceHref?: string;
   /** "cover" (default) fills the media area, cropping overflow. Use "contain"
    * when the screenshot has important UI near the edges that cover would crop. */
   imageFit?: "cover" | "contain";
