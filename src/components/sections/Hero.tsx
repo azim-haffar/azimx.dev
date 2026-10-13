@@ -45,7 +45,7 @@ export function Hero() {
                 </li>
               ))}
             </ol>
-            <Link href="/projects/orderflow" className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-accent">Read the engineering notes <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>
+            <Link href="/projects/orderflow#recovery-lab" className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-accent">Explore failure & recovery <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>
           </div>
         </div>
         <div className="mt-14 grid gap-5 border-t border-border pt-6 font-mono text-xs text-fg-subtle sm:grid-cols-3">

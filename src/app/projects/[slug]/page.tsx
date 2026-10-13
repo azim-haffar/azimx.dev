@@ -28,7 +28,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <h1 className="mt-4 text-5xl font-semibold tracking-tight sm:text-6xl">{project.title}</h1>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed text-fg-muted">{project.description}</p>
         {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 py-2 font-medium text-accent">Inspect the repository <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
-        <p className="mt-4 font-mono text-xs leading-relaxed text-fg-subtle">{project.verification}</p>
+        <p id="verification" className="scroll-mt-28 mt-4 font-mono text-xs leading-relaxed text-fg-subtle">{project.verification}</p>
         </div>
         {project.evidenceHref && <a href={project.evidenceHref} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 py-2 text-sm font-medium text-blue">Published verification record <ArrowUpRight size={14} aria-hidden="true" /></a>}
         {project.imageSrc && <figure className="my-10"><a href={project.imageSrc} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size ${project.title} screenshot`} className="block overflow-hidden rounded-xl border border-border bg-surface"><Image src={project.imageSrc} alt={project.imageAlt ?? project.title} width={project.imageWidth ?? 1440} height={project.imageHeight ?? 1000} sizes="(min-width: 1024px) 850px, 100vw" className="h-auto w-full" /></a><figcaption className="mt-3 text-sm leading-6 text-fg-muted">{project.imageCaption} <span className="text-fg-subtle">Select the image for the full-size capture.</span></figcaption></figure>}

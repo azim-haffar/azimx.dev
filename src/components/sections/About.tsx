@@ -1,6 +1,8 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
+import { experience } from "@/data/experience";
+
 export function About() {
   return (
     <section id="about" className="scroll-mt-24 py-16 sm:py-20">
@@ -29,6 +31,14 @@ export function About() {
             Languages: English C1 · German B1 (Goethe-certified) · Turkish
             Native · Arabic Native
           </p>
+        </div>
+        <div className="lg:col-span-2 border-t border-border pt-8">
+          <p className="eyebrow text-blue">Learning through building</p>
+          <h3 className="mt-3 text-xl font-semibold tracking-tight">From backend services to applied AI.</h3>
+          <ol className="mt-6 grid gap-6 sm:grid-cols-3">
+            {[...experience].reverse().map((entry, index) => <li key={entry.organization} className="border-l-2 border-accent/40 pl-4"><p className="font-mono text-xs text-blue">0{index + 1} / {entry.period}</p><p className="mt-2 font-medium">{entry.organization}</p><p className="mt-2 text-sm leading-7 text-fg-muted">{entry.organization === "Trendyol" ? "Backend services, integration tests, and engineering decisions discussed with a team." : "Paid Python/LLM development, with source-grounded question generation and response checks."}</p></li>)}
+            <li className="border-l-2 border-accent/40 pl-4"><p className="font-mono text-xs text-blue">03 / Current project work</p><p className="mt-2 font-medium">Making behavior visible</p><p className="mt-2 text-sm leading-7 text-fg-muted">Order recovery, CV feedback, and live training metrics—three projects with explicit verification and limits.</p><a href="#projects" className="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-accent underline underline-offset-4">Explore the projects</a></li>
+          </ol>
         </div>
       </Container>
     </section>
