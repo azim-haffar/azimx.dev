@@ -1,3 +1,4 @@
+import { WorkMarker } from "@/components/ui/WorkMarker";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
@@ -19,9 +20,12 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
             <p className="mt-4 font-mono text-[10px] text-fg-subtle">Illustrative curves · not measured results</p>
           </div>
         )}
+        <p className="mt-3 text-xs leading-6 text-fg-subtle">{project.slug === "hirelens" ? "Offline fixture · synthetic CV" : project.slug === "ml-training-inspector" ? "Measured synthetic CPU demo" : "Local order-processing dashboard"}</p>
+        {project.slug === "orderflow" && <Link href="/projects/orderflow#recovery-lab" className="project-explore-link">Try outage & recovery <ArrowRight size={14} aria-hidden="true" /></Link>}
+        {project.slug === "ml-training-inspector" && <Link href="/projects/ml-training-inspector#training-playground" className="project-explore-link">Explore the training run <ArrowRight size={14} aria-hidden="true" /></Link>}
       </div>
       <div>
-        <p className="eyebrow">{String(index + 1).padStart(2, "0")} / {project.focus}</p>
+        <p className="eyebrow"><WorkMarker number={index + 1} label={project.focus ?? "Engineering work"} /></p>
         <h3 className="mt-3 text-3xl font-semibold tracking-tight">{project.title}</h3>
         <p className="mt-3 text-base leading-relaxed text-fg-muted">{project.description}</p>
         <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-fg-muted">
@@ -30,9 +34,9 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         {project.limitations && <p className="mt-4 text-xs leading-relaxed text-fg-subtle"><span className="font-medium text-fg-muted">Current limits:</span> {project.limitations}</p>}
         <p className="mt-4 font-mono text-xs leading-relaxed text-blue">{project.technologies.join(" / ")}</p>
         <div className="mt-6 flex flex-wrap items-center gap-5">
-          {project.caseStudyReady && <Link href={project.caseStudyHref} className="inline-flex items-center gap-2 py-2 text-sm font-medium text-accent">Case study <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
-          {project.demoGuideHref && <Link href={project.demoGuideHref} className="inline-flex items-center gap-2 py-2 text-sm font-medium">Demo guide <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>}
-          {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 py-2 text-sm font-medium"><GitHubIcon className="h-4 w-4" aria-hidden="true" />Code <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
+          {project.caseStudyReady && <Link href={project.caseStudyHref} className="inline-flex items-center gap-2 min-h-11 py-2 text-sm font-medium text-accent">Case study <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
+          {project.demoGuideHref && <Link href={project.demoGuideHref} className="inline-flex items-center gap-2 min-h-11 py-2 text-sm font-medium">Demo guide <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>}
+          {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 min-h-11 py-2 text-sm font-medium"><GitHubIcon className="h-4 w-4" aria-hidden="true" />Code <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
         </div>
       </div>
     </article>

@@ -25,7 +25,7 @@ export function Contact() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <ContactPill
             icon={<Mail className="h-4 w-4" aria-hidden="true" />}
-            label="Email"
+            label={siteConfig.email}
             href={siteConfig.emailIsPlaceholder ? null : `mailto:${siteConfig.email}`}
             fallback="Coming soon"
             strong
@@ -62,7 +62,7 @@ function ContactPill({
   strong?: boolean;
 }) {
   const classes =
-    "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium";
+    "inline-flex min-h-11 max-w-full items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium";
 
   if (!href) {
     return (

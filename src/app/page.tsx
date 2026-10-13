@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Experience />
       <FeaturedProjects />
+      <Experience />
       <Skills />
       <About />
       <Contact />

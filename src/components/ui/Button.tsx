@@ -4,7 +4,7 @@ import Link from "next/link";
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-40";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-40";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "glass-control-solid",

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, resumeUrl, socialLinks } from "@/data/site";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +15,7 @@ const socialIcons: Record<string, React.ComponentType<{ className?: string }>> =
 };
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
@@ -42,8 +44,9 @@ export function Navbar() {
     );
 
     sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
+
+  return () => observer.disconnect();
+  }, [pathname]);
 
   // Open state: focus the first menu link, lock page scroll, and make the
   // rest of the page (main content + footer) inert so keyboard/assistive-tech
@@ -63,7 +66,8 @@ export function Navbar() {
       footer?.removeAttribute("inert");
     }
 
-    return () => {
+
+  return () => {
       document.body.style.overflow = "";
       main?.removeAttribute("inert");
       footer?.removeAttribute("inert");
@@ -104,9 +108,17 @@ export function Navbar() {
       }
     }
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+
+  return () => document.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
+
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 1024px)");
+    const closeOnWide = () => { if (wide.matches) setIsOpen(false); };
+    wide.addEventListener("change", closeOnWide);
+    return () => wide.removeEventListener("change", closeOnWide);
+  }, []);
   return (
     <header
       ref={headerRef}
@@ -124,14 +136,14 @@ export function Navbar() {
             azimx.dev
           </Link>
 
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-1 lg:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={`/${link.href}`}
-                aria-current={activeHref === link.href ? "true" : undefined}
+                aria-current={pathname === "/" && activeHref === link.href ? "true" : undefined}
                 className={`rounded-full px-3 py-2 text-sm transition-colors duration-150 hover:bg-surface hover:text-fg ${
-                  activeHref === link.href ? "text-accent" : "text-fg-muted"
+                  pathname === "/" && activeHref === link.href ? "text-accent" : "text-fg-muted"
                 }`}
               >
                 {link.label}
@@ -139,14 +151,15 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             {socialLinks.map((social) => {
               const Icon = socialIcons[social.label];
               if (!social.href) {
-                return (
+
+  return (
                   <span
                     key={social.label}
-                    className="inline-flex h-9 w-9 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
+                    className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
                     aria-disabled="true"
                     title={`${social.label} link coming soon`}
                   >
@@ -154,14 +167,15 @@ export function Navbar() {
                   </span>
                 );
               }
-              return (
+
+  return (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
                 >
                   {Icon ? <Icon className="h-4 w-4" /> : social.label}
                 </a>
@@ -175,7 +189,7 @@ export function Navbar() {
             ) : null}
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <button
               ref={menuButtonRef}
@@ -184,7 +198,7 @@ export function Navbar() {
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label={isOpen ? "Close menu" : "Open menu"}
-              className="glass-control inline-flex h-9 w-9 items-center justify-center rounded-full text-fg"
+              className="glass-control inline-flex h-11 w-11 items-center justify-center rounded-full text-fg"
             >
               {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -194,7 +208,7 @@ export function Navbar() {
         {isOpen ? (
           <div
             id="mobile-menu"
-            className="glass-panel mt-2 rounded-[1.4rem] px-5 py-5 md:hidden"
+            className="glass-panel mt-2 rounded-[1.4rem] px-5 py-5 lg:hidden"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link, index) => (
@@ -203,9 +217,9 @@ export function Navbar() {
                   href={`/${link.href}`}
                   ref={index === 0 ? firstLinkRef : undefined}
                   onClick={() => setIsOpen(false)}
-                  aria-current={activeHref === link.href ? "true" : undefined}
+                  aria-current={pathname === "/" && activeHref === link.href ? "true" : undefined}
                   className={`rounded-lg px-3 py-3 text-base transition-colors duration-150 hover:bg-surface hover:text-fg ${
-                    activeHref === link.href ? "text-accent" : "text-fg-muted"
+                    pathname === "/" && activeHref === link.href ? "text-accent" : "text-fg-muted"
                   }`}
                 >
                   {link.label}
@@ -217,24 +231,26 @@ export function Navbar() {
               {socialLinks.map((social) => {
                 const Icon = socialIcons[social.label];
                 if (!social.href) {
-                  return (
+
+  return (
                     <span
                       key={social.label}
-                      className="inline-flex h-9 w-9 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
+                      className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
                       aria-disabled="true"
                     >
                       {Icon ? <Icon className="h-4 w-4" /> : social.label}
                     </span>
                   );
                 }
-                return (
+
+  return (
                   <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
                   >
                     {Icon ? <Icon className="h-4 w-4" /> : social.label}
                   </a>

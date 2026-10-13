@@ -293,7 +293,7 @@ body {
 .project-featured { background: linear-gradient(130deg, color-mix(in oklab, var(--color-blue) 5%, var(--color-bg)), var(--color-bg) 70%); border-color: color-mix(in oklab, var(--color-blue) 30%, var(--color-border)); }
 .project-card img { transition: transform .6s cubic-bezier(.2,.7,.3,1); }
 @media (hover: hover) { .project-card:hover { transform: translateY(-4px); border-color: var(--color-accent); box-shadow: 0 24px 60px -35px color-mix(in oklab, var(--color-accent) 40%, transparent); } .project-card:hover img { transform: scale(1.025); } }
-.reveal-ready { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+.reveal-ready { transform: translateY(8px); transition: transform .35s ease-out; }
 .reveal-ready.is-visible { opacity: 1; transform: none; }
 .walkthrough { background: linear-gradient(135deg, color-mix(in oklab, var(--color-blue) 7%, var(--color-bg)), color-mix(in oklab, var(--color-accent) 5%, var(--color-bg))); }
 .flow-step { background: var(--color-bg); transition: border-color .2s, transform .2s, background .2s; }
@@ -347,3 +347,57 @@ html[data-motion-paused="true"] .signal-track span, html[data-motion-paused="tru
 .recovery-value { animation: recovery-arrive .3s ease-out; }
 @keyframes recovery-arrive { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .recovery-value { animation: none; } .recovery-metric { transition: none; } }
+
+.recovery-broker { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-accent); }
+.recovery-broker::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.recovery-broker.is-offline { color: var(--color-fg-muted); }
+.recovery-broker.is-offline::before { background: transparent; border: 1px solid currentColor; }
+.recovery-stations { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-bottom: 38px; }
+.recovery-stations::before { content: ''; position: absolute; left: 16%; right: 16%; top: 29px; height: 2px; background: var(--color-border); }
+.recovery-station { position: relative; padding: 16px 8px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-bg); text-align: center; min-width: 0; cursor: pointer; transition: border-color .2s, transform .2s; }
+.recovery-station svg { margin: auto; color: var(--color-blue); }
+.recovery-station.is-inspected { border-color: var(--color-blue); background: color-mix(in oklab, var(--color-blue) 5%, var(--color-bg)); }
+.recovery-station:hover { transform: translateY(-2px); }
+.recovery-packet { position: absolute; bottom: 2px; left: 0; font: 10px var(--font-geist-mono), monospace; letter-spacing: .05em; border: 1px solid var(--color-accent); border-radius: 6px; padding: 4px 8px; color: var(--color-accent); background: var(--color-bg); }
+.recovery-packet.is-waiting { color: var(--color-blue); border-color: var(--color-blue); }
+.recovery-packet.is-delivered { left: auto; right: 0; animation: recovery-deliver .65s ease-out; }
+@keyframes recovery-deliver { from { transform: translateX(-80px); opacity: .3; } to { transform: none; opacity: 1; } }
+.recovery-shelf { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; }
+.recovery-shelf span { height: 24px; border-radius: 4px; border: 1px solid var(--color-accent); background: color-mix(in oklab, var(--color-accent) 20%, var(--color-bg)); transition: background .3s; }
+.recovery-shelf .is-used { border-style: dashed; border-color: var(--color-border); background: transparent; }
+@media (max-width: 400px) { .recovery-stations { gap: 6px; } .recovery-station { padding: 12px 4px; } .recovery-shelf { gap: 4px; } }
+@media (prefers-reduced-motion: reduce) { .recovery-packet.is-delivered { animation: none; } .recovery-station, .recovery-shelf span { transition: none; } .recovery-station:hover { transform: none; } }
+
+.journey-milestone { position: relative; min-width: 0; padding-left: 18px; border-left: 1px solid var(--color-border); }
+.journey-marker { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; border: 1px solid color-mix(in oklab, var(--color-accent) 35%, var(--color-border)); color: var(--color-accent); background: color-mix(in oklab, var(--color-accent) 6%, var(--color-bg)); }
+@media (min-width: 1024px) { .journey-milestone { border-left: 0; border-top: 1px solid var(--color-border); padding: 20px 0 0; } .journey-marker { margin-top: -42px; background: var(--color-bg); } .personal-journey { padding-top: 20px; } }
+
+.play-module { min-height: 110px; transition: border-color .2s, transform .2s; }
+.play-module:not(:disabled):hover { border-color: var(--color-blue); transform: translateY(-2px); }
+.play-icon { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--color-border); border-radius: 8px; cursor: pointer; }
+.play-icon:disabled { opacity: .3; cursor: default; }
+.play-stock { flex: 1; height: 32px; border-radius: 6px; border: 1px solid var(--color-accent); background: color-mix(in oklab, var(--color-accent) 15%, var(--color-bg)); }
+.play-stock.is-used { border-style: dashed; border-color: var(--color-border); background: transparent; }
+@media (prefers-reduced-motion: reduce) { .play-module { transition: none; } .play-module:not(:disabled):hover { transform: none; } }
+
+.work-marker { display: inline-flex; align-items: center; gap: 12px; max-width: 100%; }
+.work-marker-number { display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: 9px; background: color-mix(in oklab, var(--color-accent) 5%, var(--color-bg)); font-family: var(--font-geist-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0; color: var(--color-accent); }
+.work-marker-connector { flex-shrink: 0; width: 18px; height: 1px; background: linear-gradient(90deg, var(--color-accent), var(--color-blue)); }
+.case-decision { padding: 24px; border: 1px solid var(--color-border); border-radius: 12px; background: linear-gradient(110deg, color-mix(in oklab, var(--color-accent) 3%, var(--color-bg)), color-mix(in oklab, var(--color-blue) 3%, var(--color-bg))); }
+.case-decision .work-marker-number { color: var(--color-blue); }
+@media (max-width: 640px) { .work-marker { gap: 9px; } .work-marker-connector { width: 10px; } .case-decision { padding: 18px; } }
+
+/* Shared polish: clear work entry points, quiet surfaces, forgiving controls. */
+.project-explore-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 8px; font-size: 14px; font-weight: 500; color: var(--color-blue); }
+.project-explore-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.case-contents { background: var(--color-bg-subtle); }
+#projects { border-top: 1px solid var(--color-border); background: linear-gradient(180deg, var(--color-bg-subtle), var(--color-bg) 240px); }
+.project-card { box-shadow: 0 12px 36px -32px color-mix(in oklab, var(--color-fg) 30%, transparent); }
+.project-card > div { min-width: 0; }
+#experience li { padding-left: 14px; position: relative; }
+#experience li::before { content: ''; position: absolute; left: 0; top: .65em; width: 4px; height: 4px; border-radius: 50%; background: var(--color-accent); }
+#about { border-top: 1px solid var(--color-border); }
+main { overflow-wrap: break-word; }
+main button:not(:disabled), main input { touch-action: manipulation; }
+@media (max-width: 640px) { .hero-section > div { padding-bottom: 40px; } .project-card { gap: 24px; } .project-card h3 { font-size: 26px; } .case-header h1 { font-size: clamp(2.25rem, 10vw, 3rem); overflow-wrap: anywhere; } .motion-control { min-height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .reveal-ready { transform: none; } }

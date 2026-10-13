@@ -23,7 +23,7 @@ export function Footer() {
               return (
                 <span
                   key={social.label}
-                  className="inline-flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
+                  className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
                   aria-disabled="true"
                   title={`${social.label} link coming soon`}
                 >
@@ -38,7 +38,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
               >
                 {Icon ? <Icon className="h-3.5 w-3.5" /> : social.label}
               </a>
