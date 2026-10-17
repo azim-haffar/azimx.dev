@@ -1,47 +1,5 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Badge } from "@/components/ui/Badge";
 import { experience } from "@/data/experience";
-
-export function Experience() {
-  return (
-    <section id="experience" className="scroll-mt-24 bg-bg-subtle py-16 sm:py-20">
-      <Container>
-        <SectionHeading eyebrow="Experience" title="Professional experience" />
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {experience.map((entry) => (
-            <div
-              key={entry.organization}
-              className="glass-card rounded-[22px] p-6 sm:p-8"
-              style={{ borderLeft: "2px solid var(--color-accent)" }}
-            >
-              <h3 className="text-xl font-semibold tracking-tight text-fg">
-                {entry.role}
-              </h3>
-              <p className="mt-1 text-sm text-fg-muted">
-                {entry.organization} · {entry.location ?? entry.employmentType}
-              </p>
-              <p className="mt-1 font-mono text-xs text-fg-subtle">{entry.period}</p>
-
-              <ul className="mt-5 flex flex-col gap-2">
-                {entry.summary.map((line) => (
-                  <li key={line} className="text-sm leading-relaxed text-fg-muted">
-                    {line}
-                  </li>
-                ))}
-              </ul>
-              {entry.technologies.length > 0 ? (
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {entry.technologies.map((tech) => (
-                    <Badge key={tech}>{tech}</Badge>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
+import { ArrowUpRight } from "lucide-react";
+export function Experience(){return <section id="experience" className="journal-section"><Container><SectionHeading eyebrow="02 / Professional experience" title="Learning with real teams." description="A backend internship and paid development work. Different contexts, the same attention to how software behaves." /><div className="career-timeline">{experience.map(entry=><article key={entry.organization} className="career-entry"><div className="career-date"><span className="career-pin" aria-hidden="true" /><p>{entry.period}</p><span>{entry.employmentType}</span></div><div className="career-body"><div className="career-title"><span className="company-monogram" aria-hidden="true">{entry.organization==="Trendyol"?"t.":"k."}</span><div><h3>{entry.organization}</h3><p>{entry.role}</p></div><ArrowUpRight size={20} aria-hidden="true" /></div><p className="career-location">{entry.location}</p><ul>{entry.summary.map(line=><li key={line}>{line}</li>)}</ul><p className="career-tools">{entry.technologies.join(" / ")}</p></div></article>)}</div></Container></section>}

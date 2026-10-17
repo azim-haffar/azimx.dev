@@ -64,7 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main-content" className="skip-link">Skip to content</a>
         <Navbar />
         <PortfolioMotion />
-        <main id="main-content" tabIndex={-1} className="flex-1">{children}</main>
+        <main id="main-content" tabIndex={-1} className="site-main flex-1">{children}</main>
         <Footer />
       </body>
     </html>

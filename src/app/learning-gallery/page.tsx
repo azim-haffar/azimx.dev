@@ -1,0 +1,6 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Container } from "@/components/ui/Container";
+import { LearningGallery } from "@/components/ui/LearningGallery";
+export const metadata:Metadata={title:"3D Learning gallery",description:"Walk through a 3D exhibition of selected learning credentials, with an accessible list and scope details.",alternates:{canonical:"/learning-gallery"}};
+export default function LearningGalleryPage(){return <Container className="learning-gallery-page max-w-5xl pt-28 pb-16 sm:pt-32"><div className="gallery-page-heading"><Link href="/#about" className="inline-flex min-h-11 items-center text-sm text-accent">← Back to portfolio</Link><p className="eyebrow text-blue">Selected learning / Interactive exhibition</p></div><h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Inside the learning.</h1><p className="mt-3 max-w-2xl text-sm leading-7 text-fg-muted">Walk through the room, look around, and select a framed credential. Keyboard, touch, guided visits, and a simple list are available.</p><LearningGallery/><p className="mt-7 border-t border-border pt-5 text-sm leading-7 text-fg-muted">Certificates complement the work. <Link href="/#projects" className="text-accent underline underline-offset-4">Explore my projects</Link> for engineering decisions and verification.</p></Container>}

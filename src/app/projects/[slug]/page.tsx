@@ -23,8 +23,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const project = projects.find(p => p.slug === slug);
   if (!project?.caseStudyReady || !project.caseStudy) notFound();
+  const ready = projects.filter(item => item.caseStudyReady);
+  const nextProject = ready[(ready.findIndex(item => item.slug === slug) + 1) % ready.length];
   return (
-    <article className="pt-32 pb-20 sm:pt-40">
+    <article className="journal-case pt-32 pb-20 sm:pt-40">
       <Container className="max-w-4xl">
         <Link href="/#projects" className="inline-flex items-center gap-2 py-2 text-sm text-fg-muted"><ArrowLeft className="h-4 w-4" aria-hidden="true" />Back to projects</Link>
         <div className="case-header">
@@ -32,6 +34,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <h1 className="mt-4 text-5xl font-semibold tracking-tight sm:text-6xl">{project.title}</h1>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed text-fg-muted">{project.description}</p>
         {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 py-2 font-medium text-accent">Inspect the repository <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
+        <p className="case-tech-line">{project.technologies.join(" / ")}</p>
         <p id="verification" className="scroll-mt-28 mt-4 font-mono text-xs leading-relaxed text-fg-subtle">{project.verification}</p>
         </div>
         {project.evidenceHref && <a href={project.evidenceHref} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 py-2 text-sm font-medium text-blue">Published verification record <ArrowUpRight size={14} aria-hidden="true" /></a>}
@@ -47,6 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="mt-10 space-y-9">
           {project.caseStudy.map((section, index) => <section key={section.title} id={sectionAnchor(section.title)} className={`case-story-section scroll-mt-28 border-t border-border pt-7 ${section.title.startsWith("One decision") ? "case-decision" : ""}`}><h2 className="text-xl font-semibold tracking-tight sm:text-2xl"><WorkMarker number={index + 1} label={section.title} /></h2><p className="mt-3 text-base leading-8 text-fg-muted">{section.body}</p></section>)}
         </div>
+        {nextProject && <Link href={nextProject.caseStudyHref} className="case-next"><span className="eyebrow">Keep exploring / Next case study</span><span>{nextProject.title}<ArrowUpRight size={24} aria-hidden="true" /></span></Link>}
         <Link href="/#contact" className="mt-12 inline-flex items-center gap-2 font-medium text-accent">Get in touch <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>
       </Container>
     </article>

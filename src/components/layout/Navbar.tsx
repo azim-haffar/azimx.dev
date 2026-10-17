@@ -3,268 +3,68 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X, MapPin, FileDown } from "lucide-react";
 import { navLinks, resumeUrl, socialLinks } from "@/data/site";
-import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons/BrandIcons";
-
-const socialIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  GitHub: GitHubIcon,
-  LinkedIn: LinkedInIcon,
-};
 
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState<string | null>(null);
-  const headerRef = useRef<HTMLElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const [active, setActive] = useState("#top");
+  const header = useRef<HTMLElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const firstLink = useRef<HTMLAnchorElement>(null);
 
-  // Scrollspy: highlight whichever section is currently near the top of the
-  // viewport, using a detection band rather than the exact top edge so the
-  // active link updates a little before/after each section fully arrives.
   useEffect(() => {
-    const sections = navLinks
-      .map((link) => document.querySelector(link.href))
-      .filter((el): el is Element => el !== null);
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting);
-        if (visible.length === 0) return;
-        const topmost = visible.reduce((a, b) =>
-          a.boundingClientRect.top <= b.boundingClientRect.top ? a : b
-        );
-        setActiveHref(`#${topmost.target.id}`);
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-  return () => observer.disconnect();
+    const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")];
+    function update() {
+      const current = sections.filter(section => section.getBoundingClientRect().top <= 180).at(-1);
+      setActive(current ? `#${current.id}` : "#top");
+    }
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, [pathname]);
 
-  // Open state: focus the first menu link, lock page scroll, and make the
-  // rest of the page (main content + footer) inert so keyboard/assistive-tech
-  // navigation can't reach content that's visually obscured behind the menu.
   useEffect(() => {
+    if (!isOpen) return;
     const main = document.querySelector("main");
     const footer = document.querySelector("footer");
-
-    if (isOpen) {
-      firstLinkRef.current?.focus();
-      document.body.style.overflow = "hidden";
-      main?.setAttribute("inert", "");
-      footer?.setAttribute("inert", "");
-    } else {
-      document.body.style.overflow = "";
-      main?.removeAttribute("inert");
-      footer?.removeAttribute("inert");
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    main?.setAttribute("inert", ""); footer?.setAttribute("inert", "");
+    firstLink.current?.focus();
+    function keydown(event: KeyboardEvent) {
+      if (event.key === "Escape") { setIsOpen(false); trigger.current?.focus(); }
+      if (event.key !== "Tab") return;
+      const nodes = [...(header.current?.querySelectorAll<HTMLElement>("a[href],button:not([disabled])") ?? [])].filter(node => node.offsetParent !== null);
+      const first = nodes[0], last = nodes.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
-
-
-  return () => {
-      document.body.style.overflow = "";
-      main?.removeAttribute("inert");
-      footer?.removeAttribute("inert");
+    const desktop = window.matchMedia("(min-width: 1200px)");
+    const resize = () => { if (desktop.matches) setIsOpen(false); };
+    desktop.addEventListener("change", resize);
+    document.addEventListener("keydown", keydown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      main?.removeAttribute("inert"); footer?.removeAttribute("inert");
+      document.removeEventListener("keydown", keydown);
+      desktop.removeEventListener("change", resize);
     };
   }, [isOpen]);
 
-  // Escape closes the menu and returns focus to the trigger; Tab/Shift+Tab
-  // is trapped within the header (nav bar + open menu panel) so focus can't
-  // leave the visible floating nav while the menu is open.
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (!isOpen) return;
-
-      if (event.key === "Escape") {
-        setIsOpen(false);
-        menuButtonRef.current?.focus();
-        return;
-      }
-
-      if (event.key === "Tab") {
-        const container = headerRef.current;
-        if (!container) return;
-        const focusable = Array.from(
-          container.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
-        ).filter((el) => el.offsetParent !== null);
-        if (focusable.length === 0) return;
-
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      }
-    }
-    document.addEventListener("keydown", onKeyDown);
-
-  return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen]);
-
-
-  useEffect(() => {
-    const wide = window.matchMedia("(min-width: 1024px)");
-    const closeOnWide = () => { if (wide.matches) setIsOpen(false); };
-    wide.addEventListener("change", closeOnWide);
-    return () => wide.removeEventListener("change", closeOnWide);
-  }, []);
-  return (
-    <header
-      ref={headerRef}
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-6 sm:pt-4"
-    >
-      <div className="pointer-events-auto w-full sm:max-w-4xl">
-        <nav
-          aria-label="Primary"
-          className="glass-surface flex h-14 w-full items-center justify-between gap-2 rounded-[1.4rem] px-4 sm:h-16 sm:rounded-[26px] sm:px-3 sm:pl-6"
-        >
-          <Link
-            href="/#top"
-            className="shrink-0 font-mono text-sm font-semibold tracking-tight text-fg"
-          >
-            azimx.dev
-          </Link>
-
-          <div className="hidden items-center gap-1 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={`/${link.href}`}
-                aria-current={pathname === "/" && activeHref === link.href ? "true" : undefined}
-                className={`rounded-full px-3 py-2 text-sm transition-colors duration-150 hover:bg-surface hover:text-fg ${
-                  pathname === "/" && activeHref === link.href ? "text-accent" : "text-fg-muted"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="hidden items-center gap-2 lg:flex">
-            {socialLinks.map((social) => {
-              const Icon = socialIcons[social.label];
-              if (!social.href) {
-
-  return (
-                  <span
-                    key={social.label}
-                    className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
-                    aria-disabled="true"
-                    title={`${social.label} link coming soon`}
-                  >
-                    {Icon ? <Icon className="h-4 w-4" /> : social.label}
-                  </span>
-                );
-              }
-
-  return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
-                >
-                  {Icon ? <Icon className="h-4 w-4" /> : social.label}
-                </a>
-              );
-            })}
-            <ThemeToggle />
-            {resumeUrl ? (
-              <Button href={resumeUrl} variant="secondary" className="ml-1">
-                Resume
-              </Button>
-            ) : null}
-          </div>
-
-          <div className="flex items-center gap-2 lg:hidden">
-            <ThemeToggle />
-            <button
-              ref={menuButtonRef}
-              type="button"
-              onClick={() => setIsOpen((open) => !open)}
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              className="glass-control inline-flex h-11 w-11 items-center justify-center rounded-full text-fg"
-            >
-              {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
-          </div>
-        </nav>
-
-        {isOpen ? (
-          <div
-            id="mobile-menu"
-            className="glass-panel mt-2 rounded-[1.4rem] px-5 py-5 lg:hidden"
-          >
-            <div className="flex flex-col gap-1">
-              {navLinks.map((link, index) => (
-                <Link
-                  key={link.href}
-                  href={`/${link.href}`}
-                  ref={index === 0 ? firstLinkRef : undefined}
-                  onClick={() => setIsOpen(false)}
-                  aria-current={pathname === "/" && activeHref === link.href ? "true" : undefined}
-                  className={`rounded-lg px-3 py-3 text-base transition-colors duration-150 hover:bg-surface hover:text-fg ${
-                    pathname === "/" && activeHref === link.href ? "text-accent" : "text-fg-muted"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-
-            <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
-              {socialLinks.map((social) => {
-                const Icon = socialIcons[social.label];
-                if (!social.href) {
-
-  return (
-                    <span
-                      key={social.label}
-                      className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full text-fg-subtle opacity-40"
-                      aria-disabled="true"
-                    >
-                      {Icon ? <Icon className="h-4 w-4" /> : social.label}
-                    </span>
-                  );
-                }
-
-  return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 hover:bg-surface hover:text-fg"
-                  >
-                    {Icon ? <Icon className="h-4 w-4" /> : social.label}
-                  </a>
-                );
-              })}
-              {resumeUrl ? (
-                <Button href={resumeUrl} variant="secondary" className="ml-auto">
-                  Resume
-                </Button>
-              ) : null}
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </header>
-  );
+  function close() { setIsOpen(false); }
+  return <header ref={header} className="portfolio-header">
+    <div className="mobile-bar"><Link href="/#top" onClick={close} className="mobile-brand"><span className="brand-square" aria-hidden="true">ah.</span>Azim Haffar<span className="text-accent">/</span></Link><div className="flex items-center gap-2"><ThemeToggle /><button ref={trigger} type="button" onClick={() => setIsOpen(open => !open)} className="header-menu-button" aria-expanded={isOpen} aria-controls="portfolio-navigation" aria-label={isOpen ? "Close menu" : "Open menu"}>{isOpen ? <X size={20} /> : <Menu size={20} />}</button></div></div>
+    <div id="portfolio-navigation" className={`identity-rail ${isOpen ? "is-open" : ""}`}>
+      <div className="rail-top"><Link href="/#top" onClick={close} className="rail-domain">azimx.dev <ArrowUpRight size={14} aria-hidden="true" /></Link><ThemeToggle /></div>
+      <Link href="/#about" onClick={close} className="rail-identity"><div className="identity-art" aria-hidden="true"><span className="identity-art-corner" /><span className="identity-art-initials">ah<span>.</span></span><span className="identity-art-caption">CURIOUS BY DEFAULT</span><span className="identity-art-orbit" /></div><span className="rail-name">Azim Haffar</span></Link>
+      <p className="rail-role">Software Engineering Student<br /><span>Backend / Applied AI</span></p>
+      <p className="rail-location"><MapPin size={13} aria-hidden="true" />Mersin, Türkiye</p>
+      <nav aria-label="Primary" className="rail-nav">{navLinks.map((link,index) => <Link key={link.href} href={`/${link.href}`} ref={index === 0 ? firstLink : undefined} onClick={close} aria-current={pathname === "/" && active === link.href ? "location" : undefined}><span className="rail-nav-index" aria-hidden="true">0{index+1}</span>{link.label}<span className="rail-nav-dot" aria-hidden="true" /></Link>)}<Link href="/learning-gallery" onClick={close} aria-current={pathname === "/learning-gallery" ? "page" : undefined}><span className="rail-nav-index" aria-hidden="true">↗</span>Learning gallery<span className="rail-experiment">3D</span></Link></nav>
+      <div className="rail-bottom"><p className="rail-availability"><span aria-hidden="true" />Internships from 17 Jan 2027</p>{resumeUrl && <Link href={resumeUrl} onClick={close} className="rail-resume">View résumé<FileDown size={16} aria-hidden="true" /></Link>}<div className="rail-socials">{socialLinks.filter(link=>link.href).map(link => <a key={link.label} href={link.href!} target="_blank" rel="noopener noreferrer" aria-label={link.label}>{link.label === "GitHub" ? <GitHubIcon className="h-4 w-4" /> : <LinkedInIcon className="h-4 w-4" />}{link.label}</a>)}</div></div>
+    </div>
+  </header>;
 }

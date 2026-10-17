@@ -5,7 +5,7 @@ import { projects } from "@/data/projects";
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
-    "/play-lab",
+    "/learning-gallery",
     ...projects.filter((p) => p.caseStudyReady).map((p) => p.caseStudyHref),
   ];
 

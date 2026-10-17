@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Braces, Code2, Cloud, Database, FlaskConical, ScanLine, PanelsTopLeft, Check, RotateCcw } from "lucide-react";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Container } from "@/components/ui/Container";
 import { skillGroups } from "@/data/skills";
 
@@ -46,18 +47,10 @@ const insights: Record<string, Insight> = {
 export function Skills() {
   const [selected, setSelected] = useState<{ skill: string; group: string } | null>(null);
   const detail = selected ? insights[selected.skill] ?? areas[selected.group] : null;
-  return <section id="skills" className="scroll-mt-24 py-12 sm:py-16">
+  return <section id="skills" className="journal-section">
     <Container>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-        <div><p className="eyebrow">Skills / applied, not just listed</p><h2 className="mt-2 text-3xl font-semibold tracking-[-.04em] sm:text-4xl">Tools behind the work.</h2></div>
-        <p className="max-w-xs text-sm leading-6 text-fg-subtle">Select a tool. See where it fits.</p>
-      </div>
-      <div className="toolkit-studio" onPointerMove={event => {
-        if (event.pointerType !== "mouse") return;
-        const rect = event.currentTarget.getBoundingClientRect();
-        event.currentTarget.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
-        event.currentTarget.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
-      }}>
+      <SectionHeading eyebrow="03 / Engineering toolkit" title="Tools, tied to the work." description="Backend is my foundation. Select a tool to see where I have used it and what the evidence supports." />
+      <div className="toolkit-studio">
         <div className="toolkit-studio-bar"><span className="flex items-center gap-2"><span className="toolkit-indicator" aria-hidden="true" />ENGINEERING TOOLKIT</span><span>Backend / Applied AI</span></div>
         <dl className="toolkit-studio-list">{skillGroups.map((group,index) => {
           const Icon = icons[index];

@@ -1,44 +1,19 @@
-import { WorkMarker } from "@/components/ui/WorkMarker";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { GitHubIcon } from "@/components/icons/BrandIcons";
 import type { Project } from "@/types/portfolio";
 
-export function ProjectCard({ project, index }: { project: Project; index: number }) {
-  return (
-    <article className={`project-card grid gap-7 rounded-2xl border border-border p-5 md:grid-cols-[0.85fr_1.15fr] md:gap-10 sm:p-8 ${index === 0 ? "project-featured" : ""}`}>
-      <div>
-        {project.imageSrc ? (
-          <div className="relative aspect-16/9 overflow-hidden rounded-xl border border-border bg-surface">
-            <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 768px) 40vw, 100vw" className={project.imageFit === "cover" ? "object-cover" : "object-contain"} style={{ objectPosition: project.imagePosition ?? "center" }} />
-          </div>
-        ) : (
-          <div className="metric-visual flex aspect-16/9 flex-col justify-center rounded-xl border border-border px-8" role="img" aria-label="Illustrative training curves, not measured results">
-            <p className="font-mono text-xs text-blue">TRAIN / OBSERVE / INSPECT</p>
-            <svg viewBox="0 0 320 90" className="mt-5 w-full" fill="none"><path d="M0 5 L25 25 L45 18 L65 44 L90 37 L115 59 L140 52 L170 69 L200 66 L230 78 L260 74 L290 80 L320 79" stroke="var(--color-accent)" strokeWidth="3" /><path d="M0 15 L30 35 L60 29 L90 50 L120 43 L150 60 L180 51 L210 63 L240 56 L270 64 L320 60" stroke="var(--color-blue)" strokeWidth="2" strokeDasharray="5 5" /></svg>
-            <p className="mt-4 font-mono text-[10px] text-fg-subtle">Illustrative curves · not measured results</p>
-          </div>
-        )}
-        <p className="mt-3 text-xs leading-6 text-fg-subtle">{project.slug === "hirelens" ? "Offline fixture · synthetic CV" : project.slug === "ml-training-inspector" ? "Measured synthetic CPU demo" : "Local order-processing dashboard"}</p>
-        {project.slug === "orderflow" && <Link href="/projects/orderflow#recovery-lab" className="project-explore-link">Try outage & recovery <ArrowRight size={14} aria-hidden="true" /></Link>}
-        {project.slug === "ml-training-inspector" && <Link href="/projects/ml-training-inspector#training-playground" className="project-explore-link">Explore the training run <ArrowRight size={14} aria-hidden="true" /></Link>}
-      </div>
-      <div>
-        <p className="eyebrow"><WorkMarker number={index + 1} label={project.focus ?? "Engineering work"} /></p>
-        <h3 className="mt-3 text-3xl font-semibold tracking-tight">{project.title}</h3>
-        <p className="mt-3 text-base leading-relaxed text-fg-muted">{project.description}</p>
-        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-fg-muted">
-          {project.capabilities?.map((item) => <li key={item} className="flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-accent" aria-hidden="true" />{item}</li>)}
-        </ul>
-        {project.limitations && <p className="mt-4 text-xs leading-relaxed text-fg-subtle"><span className="font-medium text-fg-muted">Current limits:</span> {project.limitations}</p>}
-        <p className="mt-4 font-mono text-xs leading-relaxed text-blue">{project.technologies.join(" / ")}</p>
-        <div className="mt-6 flex flex-wrap items-center gap-5">
-          {project.caseStudyReady && <Link href={project.caseStudyHref} className="inline-flex items-center gap-2 min-h-11 py-2 text-sm font-medium text-accent">Case study <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
-          {project.demoGuideHref && <Link href={project.demoGuideHref} className="inline-flex items-center gap-2 min-h-11 py-2 text-sm font-medium">Demo guide <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>}
-          {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 min-h-11 py-2 text-sm font-medium"><GitHubIcon className="h-4 w-4" aria-hidden="true" />Code <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
-        </div>
-      </div>
-    </article>
-  );
+export function ProjectCard({project,index}:{project:Project;index:number}) {
+  const isLead=index===0;
+  return <article className={`project-card journal-project ${isLead?"journal-project-lead":""}`}>
+    <div className="project-chapter"><span className="project-number">0{index+1}</span><span>{project.focus}</span><ArrowUpRight size={16} aria-hidden="true" /></div>
+    <Link href={project.caseStudyHref} className="project-media" aria-label={`Read the ${project.title} case study`}>{project.imageSrc && <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes={isLead ? "(min-width: 1200px) 900px, 90vw" : "(min-width: 1200px) 420px, (min-width: 700px) 44vw, 90vw"} className={project.imageFit==="cover"?"object-cover":"object-contain"} style={{objectPosition:project.imagePosition??"center"}} />}<span className="project-media-open" aria-hidden="true">Explore project <ArrowUpRight size={15} /></span></Link>
+    <p className="project-image-note">{project.slug==="hirelens"?"Offline fixture · synthetic CV":project.slug==="ml-training-inspector"?"Measured synthetic CPU demo":"Local order-processing dashboard"}</p>
+    <div className="project-story"><div><h3><Link href={project.caseStudyHref}>{project.title}</Link></h3><p className="project-summary">{project.description}</p></div><ul className="project-proof">{project.capabilities?.map(item=><li key={item}><span aria-hidden="true">↗</span>{item}</li>)}</ul></div>
+    {project.limitations && <p className="project-limits"><span>Scope & limits</span>{project.limitations}</p>}
+    <p className="project-stack">{project.technologies.join(" / ")}</p>
+    <div className="project-actions">{project.caseStudyReady && <Link href={project.caseStudyHref} className="project-primary-link">Case study<ArrowRight size={15} aria-hidden="true" /></Link>}{project.demoGuideHref && <Link href={project.demoGuideHref}>Demo guide<ArrowUpRight size={14} aria-hidden="true" /></Link>}{project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer"><GitHubIcon className="h-4 w-4" />Code</a>}</div>
+    {project.slug==="orderflow" && <Link href="/projects/orderflow#recovery-lab" className="project-explore-link">Try outage & recovery<ArrowRight size={14} aria-hidden="true" /></Link>}{project.slug==="ml-training-inspector" && <Link href="/projects/ml-training-inspector#training-playground" className="project-explore-link">Explore the training run<ArrowRight size={14} aria-hidden="true" /></Link>}
+  </article>;
 }
