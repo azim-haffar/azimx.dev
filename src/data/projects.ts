@@ -3,6 +3,27 @@ import type { Project } from "@/types/portfolio";
 // Evidence reviewed 6 October 2026. Local checks are distinct from public CI.
 export const projects: Project[] = [
   {
+    slug: "seatledger", title: "SeatLedger", focus: "Backend reliability / Deployed portfolio demo",
+    description: "A deployed portfolio demo of capacity-limited event reservations, free confirmation and booking analytics, using isolated synthetic shared accounts.",
+    technologies: ["Java 21", "Spring Boot", "PostgreSQL", "React", "TypeScript", "Python", "GitHub Actions"],
+    capabilities: ["Try the deployed synthetic demo", "Concurrency-safe reservations", "Replayable booking analytics"],
+    limitations: "Free backend sleeps; email delivery is unavailable. Real-user launch still needs email and completion of privacy/recovery work. Shared demo accounts only; no personal information.",
+    verification: "18 October 2026 · Deployed portfolio demo · CI: 265 backend, 56 analytics and 28 browser tests passed, zero failures/errors/skips. Synthetic evidence, not production load or real-user validation.",
+    status: "in-progress", statusNote: "Portfolio demo deployed; real-user release incomplete", featured: true,
+    github: { href: "https://github.com/azim-haffar/SeatLedger", label: "Code (private)" },
+    liveDemo: { href: "https://seatledger-portfolio.vercel.app/", label: "Try live demo" },
+    caseStudyHref: "/projects/seatledger", caseStudyReady: true, demoGuideHref: "/projects/seatledger#demo",
+    imageSrc: "/projects/seatledger-preview.png", imageWidth: 1440, imageHeight: 1100, imageAlt: "Deployed SeatLedger portfolio demo showing clearly labeled synthetic accounts and free community events", imageFit: "contain",
+    imageCaption: "Deployed portfolio demo using synthetic data and shared accounts. No real attendees or production availability claim.",
+    caseStudy: [
+      { title: "The problem", body: "University clubs and community organizers need temporary seat holds without overselling, understandable cancellation rules and trustworthy booking counts. SeatLedger explores those backend problems in a deployed, synthetic portfolio demo." },
+      { title: "One decision: serialize inventory at the event", body: "Lifecycle operations lock the event before its reservations, then sample PostgreSQL wall-clock time. A hold is confirmable only strictly before expiry. State, immutable facts, notification work and idempotency outcomes commit together. Database constraints support the model; they do not alone prove aggregate capacity safety." },
+      { title: "Analytics and deployment", body: "Java/Spring Boot runs on Render Free, the React frontend on Vercel, and operational and analytical PostgreSQL databases in separate Neon projects. Python ingestion reconciles immutable source facts and SQL models publish coherent snapshots. Dashboard freshness is explicit; ingestion is manual in this preview and never decides seat availability." },
+      { title: "Demo", body: "Open Try live demo. Use attendee@seatledger.example.test or organizer@seatledger.example.test with the deliberately public password Portfolio-demo-passphrase-7. The free backend can take a minute or more to wake up; wait and refresh after a timeout. Browse a synthetic event, sign in, hold one seat, confirm the free registration, inspect current status and cancel. Shared accounts can be changed by other visitors. Do not enter personal information or real passwords. The repository link is private and requires access; the live demo is public." },
+      { title: "Verification and limits", body: "The inspected GitHub run for commit a089151 passed 265 backend, 56 analytics and 28 browser tests with zero failures/errors/skips. Hosted checks covered secure sessions, CSRF, free confirmation/replay, cancellation, expiry and organizer analytics. This is correctness evidence using synthetic fixtures, not production scale or adoption. Email verification/reset, invitation mail, booking mail and reminders are unavailable here. Real-user launch still needs email delivery and completion of privacy/recovery work; deletion and automatic retention remain disabled." },
+    ],
+  },
+  {
     slug: "orderflow", title: "OrderFlow", focus: "Event-driven backend",
     description: "I built an order-processing backend that accepts work while Kafka is unavailable, then recovers without deducting stock twice in the verified local scenario.",
     technologies: ["Java", "Spring Boot", "Kafka", "PostgreSQL", "Redis", "Testcontainers"],
