@@ -14,6 +14,7 @@ export function OrderRecoveryLab() {
   const [active, setActive] = useState(0);
   const [replays, setReplays] = useState(0);
   const [inspected, setInspected] = useState(0);
+  const [started, setStarted] = useState(false);
   const stationNotes = [
     "PostgreSQL stores the order and outbox event in one transaction. Kafka can be offline while this durable write succeeds.",
     "The publisher retries pending events. Kafka acknowledgement and the outbox published mark are separate from consumer completion.",
@@ -23,10 +24,15 @@ export function OrderRecoveryLab() {
   function advance() {
     if (active >= 2) setReplays((count) => count + 1);
     setActive((current) => Math.min(current + 1, stages.length - 1));
+    setInspected(active === 0 ? 0 : active === 1 ? 1 : 2);
   }
-  return <section id="recovery-lab" className="recovery-lab my-12 scroll-mt-28 rounded-2xl border border-border p-5 sm:p-8" aria-labelledby="recovery-title">
-    <p className="eyebrow text-blue">Try the recovery story</p>
-    <h2 id="recovery-title" className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">What if Kafka goes offline?</h2>
+  if (!started) return <section id="recovery-lab" className="recovery-invitation" aria-labelledby="recovery-invitation-title">
+    <div><p className="eyebrow">An interactive engineering story</p><h2 id="recovery-invitation-title" tabIndex={-1}>Pull the plug.<br /><span>Follow what survives.</span></h2><p>Pause Kafka, accept an order, then bring the broker back. Explore why replay does not deduct stock twice in this illustrated scenario.</p><p className="recovery-disclaimer">Illustrative simulation · no backend connection · example stock of 10</p><button type="button" className="flagship-primary" onClick={() => { setStarted(true); requestAnimationFrame(() => document.getElementById("recovery-title")?.focus()); }}>Pause Kafka & begin<ArrowRight size={17} aria-hidden="true" /></button></div>
+    <div className="recovery-invitation-art" aria-hidden="true"><Database size={32} /><span /><Radio size={32} /><span /><PackageCheck size={32} /><p>Persist → deliver → apply</p></div>
+  </section>;
+  return <section id="recovery-lab" data-recovery-stage={active} className="recovery-lab my-12 scroll-mt-28 rounded-2xl border border-border p-5 sm:p-8" aria-labelledby="recovery-title">
+    <p className="eyebrow text-blue">A broker outage, one decision at a time</p>
+    <h2 id="recovery-title" tabIndex={-1} className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">What if Kafka goes offline?</h2>
     <p className="mt-3 text-sm leading-7 text-fg-muted">Illustrative simulation · no backend connection. Starting stock of 10 is an example, not a measurement.</p>
     <ol className="recovery-progress my-6 grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="Recovery sequence">
       {["Ready", "Pending", "Recovered", "Replayed"].map((label, index) => <li key={label} aria-current={active === index ? "step" : undefined} className={index <= active ? "is-reached" : ""}><span className="font-mono text-xs">0{index + 1}</span><span>{label}</span></li>)}
@@ -46,9 +52,15 @@ export function OrderRecoveryLab() {
       </div>
       <div className="mt-5 min-h-40"><h3 className="text-lg font-semibold">{stage.title}</h3><p className="mt-2 text-sm leading-7 text-fg-muted">{stage.text}</p><p className="mt-2 font-mono text-xs text-blue">Step {active + 1} of 4 · Replay attempts: {replays}</p></div>
     </div>
+    <div className="recovery-event-log" aria-label="Illustrated event history"><p className="eyebrow">What changed</p><ol>
+      <li>Kafka paused. PostgreSQL still available.</li>
+      {active >= 1 && <li>Order + outbox committed. Stock remains 10.</li>}
+      {active >= 2 && <li>Broker restored. Order confirmed. Stock becomes 9.</li>}
+      {active >= 3 && <li>Replay ×{replays}. Terminal state detected. Stock remains 9.</li>}
+    </ol></div>
     <div className="mt-4 flex flex-wrap gap-3">
-      <button type="button" onClick={advance} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-bg">{stage.action}<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" /></button>
-      <button type="button" onClick={() => { setActive(0); setReplays(0); setInspected(0); }} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-4 py-3 text-sm"><RotateCcw className="h-4 w-4" aria-hidden="true" />Reset</button>
+      <button type="button" onClick={advance} className="flagship-primary">{stage.action}<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" /></button>
+      <button type="button" onClick={() => { setActive(0); setReplays(0); setInspected(0); setStarted(false); requestAnimationFrame(() => document.getElementById("recovery-invitation-title")?.focus()); }} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-4 py-3 text-sm"><RotateCcw className="h-4 w-4" aria-hidden="true" />Reset</button>
     </div>
     <p className="mt-5 border-t border-border pt-4 text-xs leading-6 text-fg-muted">Measured locally on 6 October: three pending orders recovered, stock moved from 27 to 24, and replay left it at 24. This explanation does not rerun that experiment. <a href="#verification" className="text-blue underline underline-offset-4">Read the case-study verification</a>.</p>
   </section>;
