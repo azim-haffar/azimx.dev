@@ -23,7 +23,7 @@ export const navLinks: NavLink[] = [
   { label: "Contact", href: "#contact" },
 ];
 
-export const resumeUrl: string | null = "/Azim_Haffar_Portfolio_Resume.pdf";
+export const resumeUrl: string | null = "/Azim_Haffar_CV.pdf";
 
 export const socialLinks: SocialLink[] = [
   {
