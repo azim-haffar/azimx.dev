@@ -1,13 +1,16 @@
 import Link from "next/link";
-import { ArrowUpRight, GraduationCap, Award, Languages } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { experience } from "@/data/experience";
 
-export function About(){return <section id="about" className="journal-section"><Container>
-  <SectionHeading eyebrow="04 / The person behind the code" title="Curiosity, with a practical side." />
-  <div className="about-spread"><div className="about-narrative"><p className="about-intro">I’m a Software Engineering student based in Mersin, Türkiye. My strongest experience is in backend development, with applied AI work alongside it.</p><p>I’m looking for an internship where I can contribute, learn from a team, and deepen my engineering judgment.</p><div className="personal-note"><span className="note-mark" aria-hidden="true">↳</span><div><p className="eyebrow">What draws me in</p><p>I enjoy tracing what happens behind an interface, especially when something fails or behaves unexpectedly. I like building tools that make those hidden processes easier to understand—from order recovery to live training feedback.</p><Link href="/projects/orderflow#recovery-lab" className="personal-story-link">Explore one of those questions: what survives a Kafka outage?<ArrowUpRight size={16} aria-hidden="true" /></Link></div></div></div>
-  <div className="education-sheet"><GraduationCap size={26} aria-hidden="true" /><p className="eyebrow">Education / ongoing</p><h3>B.Sc. Software Engineering</h3><p>OSTİM Technical University, Türkiye<br />English-taught program</p><p className="education-graduation">Expected graduation<span>August 2027</span></p><div className="language-list"><p className="eyebrow">Languages</p><span>English <strong>C1</strong></span><span>German <strong>B1 · Goethe speaking module</strong></span><span>Turkish <strong>Native</strong></span><span>Arabic <strong>Native</strong></span></div></div></div>
-  <ol className="journey-strip" aria-label="Personal journey"><li><span>Ongoing</span><p>Software engineering studies</p></li>{[...experience].reverse().map(entry=><li key={entry.organization}><span>{entry.period}</span><p>{entry.organization === "Trendyol"?"Trendyol internship":"Paid Kvote development"}</p></li>)}<li><span>Now</span><p>Reliable systems & useful feedback</p></li></ol>
-  <Link href="/learning-gallery" className="play-invitation"><span className="play-invitation-art" aria-hidden="true"><Award size={25} /><i /><Languages size={25} /></span><div><p className="eyebrow">Beyond the projects / Selected learning</p><h3>A room for learning.</h3><p>Explore selected certificates, their scope, and the learning behind them.</p></div><span className="play-invitation-cta">Explore the gallery<ArrowUpRight size={18} aria-hidden="true" /></span></Link>
-</Container></section>}
+export function About() {
+  return <section id="about" className="journal-section"><Container>
+    <SectionHeading eyebrow="04 / About" title="Curious about what happens underneath." />
+    <div className="about-compact">
+      <div className="about-copy"><p>I’m Azim, a Software Engineering student based in Mersin, Türkiye. Backend development is my foundation, with paid applied AI work alongside it.</p><p>I enjoy tracing what happens behind an interface—especially when something fails. I build tools that make those hidden processes easier to understand.</p><Link className="personal-story-link" href="/projects/orderflow#recovery-lab">Explore that curiosity<ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+      <div className="education-compact"><p className="eyebrow">Education</p><h3>B.Sc. Software Engineering</h3><p>OSTİM Technical University · English-taught<br />Expected graduation August 2027</p><dl><div><dt>English</dt><dd>C1</dd></div><div><dt>German</dt><dd>B1 · Goethe speaking module</dd></div><div><dt>Turkish / Arabic</dt><dd>Native</dd></div></dl></div>
+    </div>
+    <div className="about-bottom"><details className="journey-detail"><summary>My journey so far</summary><ol className="journey-strip" aria-label="Personal journey"><li><span>Ongoing</span><p>Software engineering studies</p></li>{[...experience].reverse().map(entry => <li key={entry.organization}><span>{entry.period}</span><p>{entry.organization === "Trendyol" ? "Trendyol internship" : "Paid Kvote development"}</p></li>)}<li><span>Now</span><p>Reliable systems & useful feedback</p></li></ol></details><Link className="learning-inline" href="/learning-gallery">A room for learning<span>Explore certificates in 3D</span><ArrowUpRight size={18} aria-hidden="true" /></Link></div>
+  </Container></section>;
+}

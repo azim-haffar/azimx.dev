@@ -1,5 +1,15 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { experience } from "@/data/experience";
-import { ArrowUpRight } from "lucide-react";
-export function Experience(){return <section id="experience" className="journal-section"><Container><SectionHeading eyebrow="02 / Professional experience" title="Learning with real teams." description="A backend internship and paid development work. Different contexts, the same attention to how software behaves." /><div className="career-timeline">{experience.map(entry=><article key={entry.organization} className="career-entry"><div className="career-date"><span className="career-pin" aria-hidden="true" /><p>{entry.period}</p><span>{entry.employmentType}</span></div><div className="career-body"><div className="career-title"><span className="company-monogram" aria-hidden="true">{entry.organization==="Trendyol"?"t.":"k."}</span><div><h3>{entry.organization}</h3><p>{entry.role}</p></div><ArrowUpRight size={20} aria-hidden="true" /></div><p className="career-location">{entry.location}</p><ul>{entry.summary.map(line=><li key={line}>{line}</li>)}</ul><p className="career-tools">{entry.technologies.join(" / ")}</p></div></article>)}</div></Container></section>}
+
+export function Experience() {
+  return <section id="experience" className="journal-section"><Container>
+    <SectionHeading eyebrow="02 / Experience" title="Built with teams. Delivered for clients." />
+    <div className="experience-grid">{experience.map(entry => <article className="experience-card" key={entry.organization}>
+      <div className="experience-heading"><span className="company-monogram" aria-hidden="true">{entry.organization === "Trendyol" ? "t." : "k."}</span><div><h3>{entry.organization}</h3><p>{entry.role}</p></div></div>
+      <p className="experience-meta">{entry.period} · {entry.location}</p>
+      <p className="experience-summary">{entry.organization === "Trendyol" ? "Built and demonstrated a Spring Boot coupon-usage service, with PostgreSQL persistence and container-backed testing." : "Delivered a paid Python/LLM study tool with a separate evaluation step and response validation."}</p>
+      <details className="experience-detail"><summary>Contributions & technologies</summary><ul>{entry.summary.map(line => <li key={line}>{line}</li>)}</ul><p>{entry.technologies.join(" · ")}</p></details>
+    </article>)}</div>
+  </Container></section>;
+}

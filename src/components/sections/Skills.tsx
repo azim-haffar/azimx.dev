@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Braces, Code2, Cloud, Database, FlaskConical, ScanLine, PanelsTopLeft, Check, RotateCcw } from "lucide-react";
+import { ArrowUpRight, Braces, Code2, Cloud, Database, FlaskConical, ScanLine, PanelsTopLeft, Check } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Container } from "@/components/ui/Container";
 import { skillGroups } from "@/data/skills";
@@ -45,26 +45,22 @@ const insights: Record<string, Insight> = {
 };
 
 export function Skills() {
+  const [activeGroup, setActiveGroup] = useState(0);
   const [selected, setSelected] = useState<{ skill: string; group: string } | null>(null);
-  const detail = selected ? insights[selected.skill] ?? areas[selected.group] : null;
-  return <section id="skills" className="journal-section">
-    <Container>
-      <SectionHeading eyebrow="03 / Engineering toolkit" title="Tools, tied to the work." description="Backend is my foundation. Select a tool to see where I have used it and what the evidence supports." />
-      <div className="toolkit-studio">
-        <div className="toolkit-studio-bar"><span className="flex items-center gap-2"><span className="toolkit-indicator" aria-hidden="true" />ENGINEERING TOOLKIT</span><span>Backend / Applied AI</span></div>
-        <dl className="toolkit-studio-list">{skillGroups.map((group,index) => {
-          const Icon = icons[index];
-          return <div key={group.label} className={`toolkit-studio-row ${selected?.group === group.label ? "is-active" : ""}`}>
-            <dt className="toolkit-area"><span className="toolkit-area-icon"><Icon size={18} aria-hidden="true" /></span><span><span className="toolkit-area-number" aria-hidden="true">0{index+1}</span><span className="block">{group.label}</span></span></dt>
-            <dd><ul className="flex flex-wrap gap-1.5">{group.skills.map(skill => <li key={skill}><button type="button" aria-pressed={selected?.skill === skill} aria-controls="toolkit-context" onClick={() => setSelected(selected?.skill === skill ? null : {skill,group:group.label})} className={`studio-tool ${selected?.skill === skill ? "is-selected" : ""}`}>
-              <span className="studio-tool-icon">{logos[skill] ? <Image src={`/skills/${logos[skill]}.svg`} width={22} height={22} alt="" /> : <Braces size={17} aria-hidden="true" />}</span><span>{skill}</span>{selected?.skill === skill && <Check size={12} className="studio-selected-check" aria-hidden="true" />}
-            </button></li>)}</ul></dd>
-          </div>;
-        })}</dl>
-        <div id="toolkit-context" className="studio-insight" aria-live="polite" aria-atomic="true">
-          {selected && detail ? <div key={selected.skill} className="studio-insight-enter"><div className="flex min-w-0 flex-1 flex-col gap-1"><span className="text-sm font-semibold text-accent">{selected.skill}</span><p className="text-sm leading-6 text-fg-muted">{detail.text}</p></div><div className="flex shrink-0 items-center gap-3">{detail.href && <Link href={detail.href} target={detail.href.startsWith("https") ? "_blank" : undefined} rel={detail.href.startsWith("https") ? "noopener noreferrer" : undefined} className="studio-evidence-link">{detail.label}<ArrowUpRight size={14} aria-hidden="true" /></Link>}<button type="button" onClick={() => setSelected(null)} className="studio-reset" aria-label="Clear selected tool"><RotateCcw size={15} aria-hidden="true" /></button></div></div> : <p className="text-sm leading-6 text-fg-subtle">Backend is my foundation. Explore a tool for project context and evidence.</p>}
-        </div>
+  const group = skillGroups[activeGroup];
+  const detail = selected ? insights[selected.skill] ?? areas[selected.group] : areas[group.label];
+  return <section id="skills" className="journal-section"><Container>
+    <SectionHeading eyebrow="03 / Toolkit" title="A focused toolkit. Real context." />
+    <div className="compact-toolkit">
+      <div className="skill-category-list" role="group" aria-label="Skill categories">{skillGroups.map((item, index) => {
+        const Icon = icons[index];
+        return <button type="button" key={item.label} aria-pressed={activeGroup === index} aria-controls="skill-category-content" onClick={() => { setActiveGroup(index); setSelected(null); }}><Icon size={16} aria-hidden="true" /><span>{item.label}</span><span className="skill-count">{item.skills.length}</span></button>;
+      })}</div>
+      <div id="skill-category-content" className="skill-category-content"><p className="skill-panel-label">{group.label}<span>Select a tool for evidence</span></p>
+        <ul className="skill-chips">{group.skills.map(skill => <li key={skill}><button type="button" aria-pressed={selected?.skill === skill} aria-controls="toolkit-context" onClick={() => setSelected(selected?.skill === skill ? null : { skill, group: group.label })} className={`studio-tool ${selected?.skill === skill ? "is-selected" : ""}`}>
+          <span className="studio-tool-icon">{logos[skill] ? <Image src={`/skills/${logos[skill]}.svg`} width={22} height={22} alt="" /> : <Braces size={17} aria-hidden="true" />}</span><span>{skill}</span>{selected?.skill === skill && <Check size={12} aria-hidden="true" />}</button></li>)}</ul>
       </div>
-    </Container>
-  </section>;
+      <div id="toolkit-context" className="compact-tool-insight" aria-live="polite" aria-atomic="true"><div><p>{selected && <strong>{selected.skill} · </strong>}{detail?.text}</p>{detail?.href && <Link href={detail.href} target={detail.href.startsWith("https") ? "_blank" : undefined} rel={detail.href.startsWith("https") ? "noopener noreferrer" : undefined}>{detail.label}<ArrowUpRight size={14} aria-hidden="true" /></Link>}</div></div>
+    </div>
+  </Container></section>;
 }

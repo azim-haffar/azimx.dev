@@ -9,7 +9,7 @@ export function FlagshipProject({ project }: { project: Project }) {
       <p className="eyebrow">01 / Featured engineering story</p>
       <p className="flagship-name">{project.title} <span>Deployed demo</span></p>
       <h3>One seat left.<br /><span>Two people booking.</span></h3>
-      <p className="flagship-description">I built a reservation system to explore what happens when requests compete, holds expire, and clients retry—with a deployed demo and reproducible engineering evidence.</p>
+      <p className="flagship-description">A reservation system I built to explore competing requests, expiring holds, and safe retries. Try the product or follow the engineering decisions.</p>
       <div className="flagship-actions">
         {project.liveDemo.href && <a className="flagship-primary" href={project.liveDemo.href} target="_blank" rel="noopener noreferrer">Try the demo<ArrowUpRight size={17} aria-hidden="true" /></a>}
         <Link href={project.caseStudyHref}>Engineering story<ArrowRight size={17} aria-hidden="true" /></Link>
@@ -21,7 +21,7 @@ export function FlagshipProject({ project }: { project: Project }) {
         {project.imageSrc && <Image src={project.imageSrc} alt={project.imageAlt ?? "SeatLedger event reservation interface"} width={project.imageWidth ?? 1440} height={project.imageHeight ?? 1100} sizes="(min-width: 1280px) 560px, (min-width: 900px) 50vw, 90vw" />}
         <span className="flagship-preview-label">Actual product capture <ArrowUpRight size={15} aria-hidden="true" /></span>
       </Link>
-      <figcaption>Public event browsing, free registration, and organizer analytics. A portfolio demo; real-user release remains incomplete.</figcaption>
+      <figcaption>Actual interface · Synthetic portfolio demo · Real-user release incomplete.</figcaption>
     </figure>
     <ol className="flagship-decisions" aria-label="Three SeatLedger engineering decisions">
       <li><span>01 / Protect capacity</span><p>Serialize reservation changes at the event.</p></li>

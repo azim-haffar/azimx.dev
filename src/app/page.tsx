@@ -7,13 +7,13 @@ import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <>
+    <div className="portfolio-home">
       <Hero />
       <FeaturedProjects />
       <Experience />
       <Skills />
       <About />
       <Contact />
-    </>
+    </div>
   );
 }
