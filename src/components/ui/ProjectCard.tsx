@@ -11,10 +11,10 @@ const summaries: Record<string, string> = {
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
   return <article className="project-card journal-project compact-project">
     <Link href={project.caseStudyHref} className="project-media" aria-label={`Read the ${project.title} case study`}>
-      {project.imageSrc && <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 1200px) 320px, (min-width: 700px) 30vw, 88px" className={project.imageFit === "cover" ? "object-cover" : "object-contain"} style={{ objectPosition: project.imagePosition ?? "center" }} />}
+      {project.imageSrc ? <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 1200px) 320px, (min-width: 700px) 30vw, 88px" className={project.imageFit === "cover" ? "object-cover" : "object-contain"} style={{ objectPosition: project.imagePosition ?? "center" }} /> : <span className="project-text-preview"><span>{project.focus}</span><strong>{project.title}</strong><small>Engineering case study ↗</small></span>}
     </Link>
     <div className="compact-project-body">
-      <p className="project-chapter"><span className="project-number">{String(index + 1).padStart(2, "0")}</span>{project.slug === "orderflow" ? "Backend / Local experiment" : project.slug === "hirelens" ? "Applied AI / Offline demo" : "ML tooling / Synthetic demo"}</p>
+      <p className="project-chapter"><span className="project-number">{String(index + 1).padStart(2, "0")}</span>{project.focus}</p>
       <h3><Link href={project.caseStudyHref}>{project.title}<ArrowUpRight size={17} aria-hidden="true" /></Link></h3>
       <p className="project-summary">{summaries[project.slug] ?? project.description}</p>
       <p className="project-stack">{project.technologies.slice(0, 4).join(" · ")}</p>

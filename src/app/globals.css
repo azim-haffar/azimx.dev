@@ -912,3 +912,7 @@ body { font-feature-settings: "ss01" on; }
   .flagship-project,.compact-project,.experience-card,.compact-toolkit,.education-compact,.engineering-story,.portfolio-home .journal-contact { background: Canvas; border-color: CanvasText; box-shadow: none; }
   .skill-category-list button[aria-pressed="true"] { background: Highlight; color: HighlightText; }
 }
+
+.project-text-preview { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; gap:8px; padding:16px; background:var(--color-bg-subtle); color:var(--color-fg); } .project-text-preview span,.project-text-preview small { font-size:11px; line-height:1.5; color:var(--color-fg-muted); } .project-text-preview strong { font:400 clamp(18px,2vw,28px) Georgia,serif; }
+
+@media (max-width: 699px) { .project-text-preview { padding: 8px; } .project-text-preview span,.project-text-preview small { display: none; } .project-text-preview strong { font-size: 12px; line-height: 1.15; overflow-wrap: anywhere; } }
