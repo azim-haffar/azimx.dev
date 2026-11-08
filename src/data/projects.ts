@@ -24,7 +24,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "skina", title: "Skina", focus: "Applied AI systems / Local prototype",
+    slug: "skina", title: "Skina", focus: "Applied AI systems / Local prototype", imageSrc: "/projects/skina-local-advisor.jpg", imageAlt: "Skina local fictional advisor with deterministic demo basket and mocked explanations", imageCaption: "Actual local prototype capture, 31 October 2026. Fictional catalog and mocked explanation; not the older public preview.", imageFit: "contain",
     description: "A fictional retail advisor that selects a basket using deterministic rules and explores gated model explanations.",
     technologies: ["React", "TypeScript", "Node.js"], capabilities: ["Deterministic category and budget selection", "Gated explanations of selected products", "Fictional catalog and preserved evaluation misses"],
     limitations: "Latest retailer prototype is local. Its shopper interface uses mocked explanations; the older public preview is separate. Real-user usefulness and live AI improvement remain unproven.",
