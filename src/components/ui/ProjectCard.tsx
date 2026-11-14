@@ -21,6 +21,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
     </div>
     <details className="project-evidence"><summary>Evidence & scope</summary><ul>{project.capabilities?.map(item => <li key={item}>{item}</li>)}</ul><p>{project.limitations}</p></details>
     <div className="project-actions"><Link href={project.caseStudyHref} className="project-primary-link">Case study<ArrowRight size={15} aria-hidden="true" /></Link>{project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer">{project.github.label}<ArrowUpRight size={14} aria-hidden="true" /></a>}
+    {project.slug === "orderflow" && <a href="https://github.com/azim-haffar/OrderFlow/actions/runs/37155280243">17-test CI run ↗</a>}
     {project.slug === "orderflow" && <Link href="/projects/orderflow#recovery-lab">Try recovery<ArrowRight size={14} aria-hidden="true" /></Link>}
     {project.slug === "ml-training-inspector" && <Link href="/projects/ml-training-inspector#training-playground">Explore run<ArrowRight size={14} aria-hidden="true" /></Link>}</div>
   </article>;
