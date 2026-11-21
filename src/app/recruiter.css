@@ -100,3 +100,62 @@
 }
 @media(prefers-reduced-motion:reduce) { .r-button { transition: none; } .r-button:hover { transform: none; } }
 @media(forced-colors:active) { .r-button { border: 1px solid ButtonText; } .r-project { border-color: CanvasText; } }
+
+/* Frosted surfaces share the portfolio's light and dark theme tokens. */
+.recruiter-home {
+  background: radial-gradient(ellipse at 85% 0%, color-mix(in srgb, var(--color-accent) 17%, transparent), transparent 32%),
+    radial-gradient(ellipse at 5% 30%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 30%), var(--color-bg);
+}
+.r-hero { background: transparent; }
+.r-header, .ai-explorer, .r-project {
+  background: color-mix(in srgb, var(--color-bg) 83%, transparent);
+  backdrop-filter: blur(16px);
+}
+.r-project, .ai-explorer {
+  background: color-mix(in srgb, var(--color-surface) 83%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-fg) 8%, transparent), 0 16px 38px -30px var(--color-accent);
+}
+.r-hero > div { display: grid; gap: 28px 44px; align-items: center; }
+.ai-explorer { min-width: 0; padding: clamp(16px, 2.3vw, 26px); border: 1px solid var(--color-border-strong); border-radius: 22px; }
+.ai-explorer h2 { margin: 0 0 14px; font-size: 17px; font-weight: 600; }
+.ai-controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.ai-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 10px; border: 1px solid var(--color-border-strong); border-radius: 9px; font-size: 13px; }
+.ai-controls button[aria-pressed="true"] { background: var(--color-accent); color: var(--color-accent-fg); border-color: var(--color-accent); }
+#ai-evidence { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--color-border); }
+.ai-explorer h3 { font-size: 20px; font-weight: 600; }
+.ai-pipeline { display: flex; flex-wrap: wrap; gap: 6px; margin-block: 12px; }
+.ai-pipeline li { padding: 5px 8px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-bg-subtle); font-size: 12px; }
+.ai-explorer p { font-size: 14px; line-height: 1.65; color: var(--color-fg); }
+.ai-explorer .ai-scope { margin-top: 8px; color: var(--color-fg-muted); font-size: 13px; }
+.ai-explorer a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; color: var(--color-accent); font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+@media (min-width: 960px) { .r-hero > div { grid-template-columns: 1.15fr 1fr; } }
+@media (forced-colors: active) {
+  .ai-explorer, .r-project, .r-header { background: Canvas; backdrop-filter: none; }
+  .ai-controls button[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+}
+
+/* A quiet grid behind the workflow panel and a brighter rim in light mode. */
+.r-hero {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 16%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+}
+html:not(.dark) :is(.ai-explorer, .r-project) {
+  background: linear-gradient(145deg, #ffffffed, #eef7f3e6);
+  border-color: #a8c5ba;
+  box-shadow: inset 0 1px 0 white, 0 16px 38px -28px #12665670;
+}
+html:not(.dark) .r-header { background: #f7f9f8dc; }
+@keyframes pipeline-step {
+  0% { transform: translateY(3px); border-color: var(--color-accent); }
+  100% { transform: translateY(0); border-color: var(--color-border); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ai-pipeline[data-animate="true"] li { animation: pipeline-step 260ms ease-out backwards; }
+  .ai-pipeline li:nth-child(2) { animation-delay: 70ms; }
+  .ai-pipeline li:nth-child(3) { animation-delay: 140ms; }
+}
+@media (forced-colors: active) {
+  .r-hero { background-image: none; }
+  html:not(.dark) :is(.ai-explorer, .r-project, .r-header) { background: Canvas; border-color: CanvasText; box-shadow: none; }
+}
