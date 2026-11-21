@@ -2,20 +2,21 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --color-bg: #f5f7fa; --color-bg-subtle: #e9eef3; --color-surface: #ffffff; --color-surface-hover: #e0e8ef;
-  --color-border: #d0dbe5; --color-border-strong: #94a9b9;
-  --color-fg: #02070a; --color-fg-muted: #374b5a; --color-fg-subtle: #4e6373;
-  --color-accent: #ad3b1d; --color-blue: #006799; --color-accent-fg: #ffffff; --color-ring: #006799;
-  --color-tiffany: #ad3b1d; --color-tiffany-detail: #fc734d;
-  --color-midnight: #02070a; --color-electric: #0297de; --color-cantaloupe: #fc734d;
-  --rail-width: 276px;
+  --color-bg: #f7f9f8; --color-bg-subtle: #edf2f0; --color-surface: #ffffff; --color-surface-hover: #e2ece7;
+  --color-border: #d2dfd8; --color-border-strong: #8ba89a;
+  --color-fg: #152c28; --color-fg-muted: #405c54; --color-fg-subtle: #4b665e;
+  --color-accent: #126656; --color-blue: #126656; --color-accent-fg: #ffffff; --color-ring: #126656;
+  --color-tiffany: #126656; --color-tiffany-detail: #126656;
+  --color-midnight: #0b1412; --color-electric: #126656; --color-cantaloupe: #126656;
+  --rail-width: 0px;
 }
 .dark {
-  --color-bg: #02070a; --color-bg-subtle: #090f16; --color-surface: #101923; --color-surface-hover: #182737;
-  --color-border: #243444; --color-border-strong: #4e687e;
-  --color-fg: #f4f7fb; --color-fg-muted: #bbcad8; --color-fg-subtle: #9eb2c5;
-  --color-accent: #fc734d; --color-blue: #0297de; --color-accent-fg: #02070a; --color-ring: #fc734d;
-  --color-tiffany: #fc734d; --color-tiffany-detail: #fc734d;
+  --color-bg: #0b1412; --color-bg-subtle: #101e1a; --color-surface: #152620; --color-surface-hover: #1b3029;
+  --color-border: #30483d; --color-border-strong: #688f7c;
+  --color-fg: #edf4f0; --color-fg-muted: #bdcfc5; --color-fg-subtle: #a1b9ac;
+  --color-accent: #8dd2b6; --color-blue: #8dd2b6; --color-accent-fg: #0b1d16; --color-ring: #8dd2b6;
+  --color-tiffany: #8dd2b6; --color-tiffany-detail: #8dd2b6;
+  --color-electric: #8dd2b6; --color-cantaloupe: #8dd2b6;
 }
 @theme inline {
   --color-bg: var(--color-bg); --color-bg-subtle: var(--color-bg-subtle); --color-surface: var(--color-surface); --color-surface-hover: var(--color-surface-hover);
@@ -918,3 +919,74 @@ body { font-feature-settings: "ss01" on; }
 @media (max-width: 699px) { .project-text-preview { padding: 8px; } .project-text-preview span,.project-text-preview small { display: none; } .project-text-preview strong { font-size: 12px; line-height: 1.15; overflow-wrap: anywhere; } }
 
 .case-overview { display:grid; gap:16px; margin-top:24px; padding:20px; border:1px solid var(--color-border); border-radius:16px; background:var(--color-surface); } .case-overview > div > p:last-child { margin-top:8px; font-size:14px; line-height:1.8; color:var(--color-fg-muted); } @media(min-width:700px){ .case-overview { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+
+/* Shared proportions and surfaces across the portfolio. */
+:root { --ui-radius: 16px; --ui-radius-large: 22px; --ui-space: 24px; --ui-shadow: 0 12px 30px -24px #02070a55; }
+.dark { --ui-shadow: 0 12px 30px -24px #000b; }
+:is(.flagship-project,.compact-project,.experience-card,.compact-toolkit,.education-compact,.engineering-story,.case-overview,.recovery-invitation,.recovery-lab,.walkthrough,.training-playground) {
+  border-radius: var(--ui-radius); border-color: var(--color-border); background: var(--color-surface); box-shadow: var(--ui-shadow);
+}
+.dark :is(.flagship-project,.compact-project,.experience-card,.compact-toolkit,.education-compact,.engineering-story,.case-overview) { background: var(--color-surface); border-color: var(--color-border); box-shadow: var(--ui-shadow); }
+.portfolio-home .flagship-project,.portfolio-home .compact-toolkit { border-radius: var(--ui-radius-large); }
+.portfolio-home .chapter-heading { max-width: 760px; }
+.portfolio-home .chapter-heading h2 { font-size: clamp(30px,3.2vw,42px); line-height: 1.12; }
+.portfolio-home .journal-section { padding-block: 40px; }
+.supporting-work-heading { gap: 10px 24px; align-items: center; }
+.project-gallery.supporting-projects { align-items: stretch; gap: 20px; }
+.compact-project { overflow: hidden; }
+.compact-project h3 { line-height: 1.16; }
+.compact-project .project-summary { line-height: 1.75; }
+.compact-project .project-evidence { margin-top: 16px; }
+.compact-project .project-actions { gap: 0 16px; }
+.compact-project .project-actions a { min-height: 44px; white-space: nowrap; }
+.project-text-preview { background: linear-gradient(135deg,color-mix(in oklab,var(--color-electric) 7%,var(--color-bg-subtle)),var(--color-bg-subtle)); }
+.flagship-preview,.flagship-decisions,.flagship-evidence,.compact-tool-insight { background: var(--color-bg-subtle); }
+.flagship-decisions li { padding: 16px 20px; }
+.flagship-preview-label { background: var(--color-surface); }
+.skill-category-list { align-items: stretch; }
+.skill-category-list button { flex-wrap: nowrap; justify-content: flex-start; min-height: 48px; line-height: 1.5; }
+.skill-category-list button > span:not(.skill-count) { min-width: 0; }
+.skill-category-content,.compact-tool-insight { padding: 20px; }
+.skill-panel-label { gap: 8px 16px; }
+.skill-chips { gap: 8px; }
+.skill-chips .studio-tool { box-shadow: none; }
+.experience-card,.education-compact { padding: var(--ui-space); }
+.experience-summary,.about-copy > p:not(:first-child),.case-story-section > p { line-height: 1.8; }
+.experience-heading { align-items: flex-start; }
+.experience-heading .company-monogram { flex-shrink: 0; }
+.about-bottom { gap: 12px; }
+.journey-detail,.learning-inline { min-height: 54px; align-content: center; border-radius: 12px; }
+.case-header h1 { font-size: clamp(40px,5vw,64px); line-height: 1.06; }
+.case-overview { gap: 0; padding: 0; overflow: hidden; }
+.case-overview > div { padding: 20px; }
+.case-overview > div + div { border-top: 1px solid var(--color-border); }
+.case-overview .eyebrow { color: var(--color-blue); }
+.case-contents { border-radius: var(--ui-radius); }
+.case-contents a { padding-inline: 8px; min-height: 44px; }
+.engineering-story,.recovery-invitation,.recovery-lab,.walkthrough { margin-block: 32px; }
+.engineering-observation { background: var(--color-bg-subtle); }
+.portfolio-home .journal-contact { border-radius: var(--ui-radius-large); border-color: var(--color-border); }
+.contact-secondary { gap: 0 24px; }
+summary { transition: color .18s; }
+summary:hover { color: var(--color-blue); }
+details[open] > summary { color: var(--color-blue); }
+@media(min-width:700px) {
+  .compact-project-body { flex: 1; }
+  .compact-project h3 { min-height: 2.32em; }
+  .case-overview > div + div { border-top: 0; border-left: 1px solid var(--color-border); }
+}
+@media(max-width:699px) {
+  :root { --ui-space: 20px; }
+  .portfolio-home .journal-section { padding-block: 32px; }
+  .portfolio-home .chapter-heading h2 { font-size: 30px; }
+  .project-gallery.supporting-projects { gap: 16px; }
+  .skill-category-list button { border-radius: 12px; font-size: 12px; }
+  .skill-panel-label > span { flex-basis: 100%; }
+  .case-overview > div { padding: 18px; }
+  .portfolio-home .flagship-decisions li { padding: 12px; }
+  .personal-story-link { font-size: 13px; }
+}
+@media(prefers-reduced-motion:reduce) { summary { transition: none; } }
+@media(forced-colors:active) {
+  :is(.flagship-project,.compact-project,.experience-card,.compact-toolkit,.education-compact,.engineering-story,.case-overview) { background:Canvas; border-color:CanvasText; box-shadow:none; }
+}

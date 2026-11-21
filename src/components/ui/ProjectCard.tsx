@@ -3,25 +3,23 @@ import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import type { Project } from "@/types/portfolio";
 
-const summaries: Record<string, string> = {
-  orderflow: "Accept work during a Kafka outage, recover pending orders, and inspect stock-safe replay.",
-  hirelens: "A synthetic offline journey from CV upload and feedback to tracking, history, and deletion.",
-  "ml-training-inspector": "Live training feedback, checked against a reproducible synthetic PyTorch CPU run.",
+const presentation: Record<string, { line: string; scope: string }> = {
+  skina: { line: "Built deterministic basket selection and a gated explanation boundary; verified with fictional fixtures and a frozen evaluation that preserves misses.", scope: "Local fictional retailer prototype · Mocked shopper explanations" },
+  "ml-training-inspector": { line: "Connected PyTorch training to a live dashboard; checked a seeded CPU run against its charts and checkpoint metrics.", scope: "Local synthetic CPU demo · 15 backend + 2 frontend tests" },
+  seatledger: { line: "Built reservation lifecycle, recovery and analytics; recorded verification covers 265 backend, 56 analytics and 28 browser tests.", scope: "Hosted synthetic demo · Cold starts · Booking may be closed" },
+  motiontrace: { line: "Compared classical and learned MRI target tracking; retained the finding that causal ZNCC outperformed the learned candidate.", scope: "Research workbench · Text only · No clinical validation" },
+  hirelens: { line: "Built a CV analysis workflow separating deterministic scores from generated advice; verified synthetic journeys and Linux CI.", scope: "Offline demo · Final local revision unpublished" },
+  orderflow: { line: "Built an outbox-based order workflow; verified Kafka recovery and stock-safe replay with 17 backend tests.", scope: "Local recovery demo · Final revision unpublished" },
 };
-export function ProjectCard({ project, index }: { project: Project; index: number }) {
-  return <article className="project-card journal-project compact-project">
-    <Link href={project.caseStudyHref} className="project-media" aria-label={`Read the ${project.title} case study`}>
-      {project.imageSrc ? <Image src={project.imageSrc} alt={project.imageAlt ?? `${project.title} interface`} fill sizes="(min-width: 1200px) 320px, (min-width: 700px) 30vw, 88px" className={project.imageFit === "cover" ? "object-cover" : "object-contain"} style={{ objectPosition: project.imagePosition ?? "center" }} /> : <span className="project-text-preview"><span>{project.focus}</span><strong>{project.title}</strong><small>Engineering case study ↗</small></span>}
-    </Link>
-    <div className="compact-project-body">
-      <p className="project-chapter"><span className="project-number">{String(index + 1).padStart(2, "0")}</span>{project.focus}</p>
-      <h3><Link href={project.caseStudyHref}>{project.title}<ArrowUpRight size={17} aria-hidden="true" /></Link></h3>
-      <p className="project-summary">{summaries[project.slug] ?? project.description}</p>
-      <p className="project-stack">{project.technologies.slice(0, 4).join(" · ")}</p>
+
+export function ProjectCard({ project }: { project: Project; index?: number }) {
+  const content = presentation[project.slug];
+  return <article className="r-project">
+    <div className="r-project-media">{project.imageSrc ? <Image src={project.imageSrc} alt={project.imageAlt ?? project.title} fill sizes="(min-width: 1100px) 340px, (min-width: 700px) 44vw, 90vw" className="object-cover object-top" /> : <div className="r-research-preview" aria-label="Text-only research presentation"><span>Classical ↔ Learned</span><strong>Compare.<br />Measure.<br />Keep the finding.</strong><span>No research imagery published</span></div>}</div>
+    <div className="r-project-content"><p className="r-eyebrow">{project.focus?.split(" / ")[0]}</p><h3>{project.title}</h3><p>{content?.line ?? project.description}</p><p className="r-project-scope">{content?.scope ?? project.statusNote}</p>
+      <div className="r-project-actions"><Link href={project.caseStudyHref} className="r-case-link">Case study<ArrowRight size={15} aria-hidden="true" /></Link>
+      {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer">Code<ArrowUpRight size={14} aria-hidden="true" /></a>}
+      {project.liveDemo.href && <a href={project.liveDemo.href} target="_blank" rel="noopener noreferrer">Demo<ArrowUpRight size={14} aria-hidden="true" /></a>}</div>
     </div>
-    <details className="project-evidence"><summary>Evidence & scope</summary><ul>{project.capabilities?.map(item => <li key={item}>{item}</li>)}</ul><p>{project.limitations}</p></details>
-    <div className="project-actions"><Link href={project.caseStudyHref} className="project-primary-link">Case study<ArrowRight size={15} aria-hidden="true" /></Link>{project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer">{project.github.label}<ArrowUpRight size={14} aria-hidden="true" /></a>}
-    {project.slug === "orderflow" && <Link href="/projects/orderflow#recovery-lab">Try recovery<ArrowRight size={14} aria-hidden="true" /></Link>}
-    {project.slug === "ml-training-inspector" && <Link href="/projects/ml-training-inspector#training-playground">Explore run<ArrowRight size={14} aria-hidden="true" /></Link>}</div>
   </article>;
 }

@@ -7,10 +7,10 @@ import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <div className="portfolio-home">
+    <div className="recruiter-home">
       <Hero />
-      <FeaturedProjects />
       <Experience />
+      <FeaturedProjects />
       <Skills />
       <About />
       <Contact />

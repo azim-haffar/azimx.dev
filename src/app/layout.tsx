@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
+import "./recruiter.css";
 import { PortfolioMotion } from "@/components/ui/PortfolioMotion";
 
 const geistSans = localFont({

@@ -1,17 +1,13 @@
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectCard } from "@/components/ui/ProjectCard";
-import { FlagshipProject } from "@/components/ui/FlagshipProject";
 import { projects } from "@/data/projects";
 
 export function FeaturedProjects() {
-  const featured = projects.filter(project => project.featured);
-  const flagship = featured.find(project => project.slug === "seatledger");
-  const supporting = featured.filter(project => project !== flagship);
-  return <section id="projects" className="journal-section"><Container>
-    <SectionHeading eyebrow="01 / Selected work" title="The interface is only the beginning." description="Explore the product, follow a decision, then inspect the evidence." />
-    {flagship && <FlagshipProject project={flagship} />}
-    <div className="supporting-work-heading"><h3>More ways I investigate software.</h3><p>Recovery, useful feedback, and a view inside training.</p></div>
-    <div className="project-gallery supporting-projects">{supporting.map((project,index) => <ProjectCard key={project.slug} project={project} index={index + 1} />)}</div>
+  const find = (slug: string) => projects.find(project => project.slug === slug)!;
+  return <section id="projects" className="r-section"><Container>
+    <div className="r-section-heading"><div><p className="r-eyebrow">Selected work</p><h2>AI tools. Measured behavior.<br />Reliable systems.</h2></div><p>Three starting points into my work. Each case study explains my contribution, the evidence and its limits.</p></div>
+    <div className="r-project-grid">{["ml-training-inspector", "skina", "seatledger"].map(slug => <ProjectCard key={slug} project={find(slug)} />)}</div>
+    <h3 className="r-more-heading">More engineering &amp; research</h3>
+    <div className="r-project-grid">{["motiontrace", "hirelens", "orderflow"].map(slug => <ProjectCard key={slug} project={find(slug)} />)}</div>
   </Container></section>;
 }

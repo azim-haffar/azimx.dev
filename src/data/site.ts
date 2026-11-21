@@ -8,9 +8,9 @@ export const siteConfig = {
   name: "Azim Haffar",
   domain: "azimx.dev",
   url: "https://azimx.dev",
-  title: "Azim Haffar — Software Engineering Student",
+  title: "Azim Haffar — Applied AI & ML Portfolio",
   description:
-    "Software Engineering student with backend internship experience at Trendyol and paid Python/LLM development experience. Open to paid technical internships from 17 January 2027.",
+    "Software Engineering student focused on applied AI and ML engineering: paid Python/LLM development, evaluation workflows and ML tooling. Seeking internships from 17 January 2027.",
   email: "azim.haffar@gmail.com",
   emailIsPlaceholder: false,
 };

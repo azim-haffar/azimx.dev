@@ -1,5 +1,12 @@
-import { ArrowUpRight, Mail } from "lucide-react";
-import { Container } from "@/components/ui/Container";
-import { siteConfig, socialLinks, resumeUrl } from "@/data/site";
 import Link from "next/link";
-export function Contact(){return <section id="contact" className="journal-contact"><Container><div className="contact-kicker"><span className="availability-dot" aria-hidden="true" />05 / Let’s talk</div><h2>Good work starts<br />with a conversation<span>.</span></h2><div className="contact-spread"><p>Open to paid technical internships from 17 January 2027, with Europe preferred and Türkiye also welcome. Available now for paid remote work that fits university commitments.</p><div className="contact-links"><a href={`mailto:${siteConfig.email}`} className="contact-email"><Mail size={20} aria-hidden="true" /><span>{siteConfig.email}</span><ArrowUpRight size={20} aria-hidden="true" /></a><div className="contact-secondary">{socialLinks.filter(link=>link.href).map(link=><a href={link.href!} key={link.label} target="_blank" rel="noopener noreferrer">{link.label}<ArrowUpRight size={15} aria-hidden="true" /></a>)}{resumeUrl && <Link href={resumeUrl}>Résumé<ArrowUpRight size={15} aria-hidden="true" /></Link>}</div></div></div></Container></section>}
+import { ArrowUpRight } from "lucide-react";
+import { Container } from "@/components/ui/Container";
+import { resumeUrl, siteConfig, socialLinks } from "@/data/site";
+
+export function Contact() {
+  return <section id="contact" className="r-section r-contact"><Container>
+    <p className="r-eyebrow">Contact</p><h2>Let’s talk about the work.</h2>
+    <p>Seeking applied AI, ML systems and relevant software internships from 17 January 2027. Also available for paid remote work that fits university commitments.</p>
+    <div className="r-contact-links"><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}<ArrowUpRight size={17} aria-hidden="true" /></a>{socialLinks.filter(link => link.href).map(link => <a href={link.href!} target="_blank" rel="noopener noreferrer" key={link.label}>{link.label}<ArrowUpRight size={15} aria-hidden="true" /></a>)}{resumeUrl && <Link href={resumeUrl}>Résumé<ArrowUpRight size={15} aria-hidden="true" /></Link>}</div>
+  </Container></section>;
+}
