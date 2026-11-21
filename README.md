@@ -2,6 +2,14 @@
 
 Personal engineering portfolio built with Next.js, React, TypeScript, and Tailwind CSS.
 
+## 60-second portfolio tour
+
+1. [Browse the work](https://www.azimx.dev/#projects): six project case studies explain the problem, contribution and engineering decision.
+2. [Explore Skina](https://www.azimx.dev/projects/skina) for deterministic selection and bounded AI explanations, or [MotionTrace](https://www.azimx.dev/projects/motiontrace) for a research comparison that preserves a negative result.
+3. [Inspect the content model](src/data/projects.ts): capabilities, screenshots, evidence links and limits are kept together.
+
+**Built with:** Next.js, React, TypeScript and Tailwind CSS. Public case studies are available without an account. Linked projects have separate access and evidence limits; private source and research assets are not included here.
+
 ## Development
 
 ```sh

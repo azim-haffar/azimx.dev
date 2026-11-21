@@ -19,6 +19,7 @@ export function ProjectCard({ project }: { project: Project; index?: number }) {
     <div className="r-project-content"><p className="r-eyebrow">{project.focus?.split(" / ")[0]}</p><h3>{project.title}</h3><p>{content?.line ?? project.description}</p><p className="r-project-scope">{content?.scope ?? project.statusNote}</p>
       <div className="r-project-actions"><Link href={project.caseStudyHref} className="r-case-link">Case study<ArrowRight size={15} aria-hidden="true" /></Link>
       {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer">Code<ArrowUpRight size={14} aria-hidden="true" /></a>}
+      {project.slug === "orderflow" && <a href="https://github.com/azim-haffar/OrderFlow/actions/runs/37155280243" target="_blank" rel="noopener noreferrer">CI evidence<ArrowUpRight size={14} aria-hidden="true" /></a>}
       {project.liveDemo.href && <a href={project.liveDemo.href} target="_blank" rel="noopener noreferrer">Demo<ArrowUpRight size={14} aria-hidden="true" /></a>}</div>
     </div>
   </article>;
