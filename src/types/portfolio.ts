@@ -30,7 +30,7 @@ export interface Project {
   imagePosition?: string;
   verification?: string;
   demoGuideHref?: string;
-  evidenceHref?: string;
+  evidenceLinks?: { href: string; label: string }[];
   /** "cover" (default) fills the media area, cropping overflow. Use "contain"
    * when the screenshot has important UI near the edges that cover would crop. */
   imageFit?: "cover" | "contain";

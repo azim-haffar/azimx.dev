@@ -159,3 +159,10 @@ html:not(.dark) .r-header { background: #f7f9f8dc; }
   .r-hero { background-image: none; }
   html:not(.dark) :is(.ai-explorer, .r-project, .r-header) { background: Canvas; border-color: CanvasText; box-shadow: none; }
 }
+
+.r-hero-explorer > summary { cursor: pointer; min-height: 44px; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 12px; color: var(--color-fg); }
+.r-hero-explorer[open] > summary { margin-bottom: 12px; }
+.r-project-index { display: grid; }
+.r-project-index li + li { border-top: 1px solid var(--color-border); }
+.r-project-index a { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 8px 4px; font-size: 15px; color: var(--color-accent); }
+.r-project-index svg { flex: none; }

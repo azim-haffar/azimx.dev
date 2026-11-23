@@ -34,7 +34,7 @@ export function AIExplorer() {
   const track = tracks[selected];
 
   return <section className="ai-explorer" aria-labelledby="explorer-title">
-    <h2 id="explorer-title">Explore my AI &amp; ML work</h2>
+    <h2 id="explorer-title">Project workflows</h2>
     <div className="ai-controls" role="group" aria-label="Choose a project workflow">
       {tracks.map(({ name, icon: Icon }, index) => (
         <button key={name} type="button" aria-pressed={selected === index} aria-controls="ai-evidence" onClick={() => { if (selected !== index) { select(index); setHasInteracted(true); } }}>

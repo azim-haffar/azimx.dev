@@ -16,6 +16,6 @@ export function Hero() {
       <Link href="/projects/skina" className="r-button r-button-secondary">Applied AI<ArrowRight size={16} aria-hidden="true" /></Link>
       <Link href="/projects/seatledger" className="r-button r-button-secondary">Backend &amp; data<ArrowRight size={16} aria-hidden="true" /></Link>
     </nav>
-    </div><AIExplorer />
+    </div><details className="r-hero-explorer"><summary>Explore my AI &amp; ML work</summary><AIExplorer /></details>
   </Container></section>;
 }
