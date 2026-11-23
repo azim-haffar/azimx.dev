@@ -28,7 +28,7 @@ export const projects: Project[] = [
     description: "A fictional retail advisor that selects a basket using deterministic rules and explores gated model explanations.",
     technologies: ["React", "TypeScript", "Node.js"], capabilities: ["Deterministic category and budget selection", "Gated explanations of selected products", "Fictional catalog and preserved evaluation misses"],
     limitations: "Latest retailer prototype is local. Its shopper interface uses mocked explanations; the older public preview is separate. Real-user usefulness and live AI improvement remain unproven.",
-    verification: "Local fictional-fixture tests and a frozen evaluation include preserved misses. Gated adapter observations do not establish general model reliability.",
+    verification: "Local revision f6a4f9f reproduced the frozen 22/24 result. Two free-text-only constraints were missed. 406 tests passed with one intentional skip. No new live evidence.",
     status: "in-progress", featured: true, github: { href: null, label: "Private repository" }, liveDemo: { href: null, label: "Live demo" }, caseStudyHref: "/projects/skina", caseStudyReady: true,
     caseStudy: [
       { title: "The problem", body: "Explore how a fictional retail advisor can explain a product shortlist while respecting shopping preferences and budget." },
@@ -57,9 +57,9 @@ export const projects: Project[] = [
     slug: "orderflow", title: "OrderFlow", focus: "Event-driven backend",
     description: "I built an order-processing backend that accepts work while Kafka is unavailable, then recovers without deducting stock twice in the verified local scenario.",
     technologies: ["Java", "Spring Boot", "Kafka", "PostgreSQL", "Redis", "Testcontainers"],
-    capabilities: ["Durable work during a Kafka outage", "Recovery without a second stock deduction", "17 tests covering lifecycle and reliability"],
-    limitations: "Local verification, not a load benchmark. Single publisher; no authentication or public hosted demo.",
-    verification: "Reviewed 6 October 2026 · 17 local tests passed · Final local revision 00110c5 remains unpublished",
+    capabilities: ["Durable work during a Kafka outage", "Recovery without a second stock deduction", "18 backend tests covering lifecycle and reliability"],
+    limitations: "Local verification only. Dead-letter publish failure was reviewed in configuration. Single publisher, no authentication or hosted demo.",
+    verification: "Revision 6eb8a60: 18 backend tests passed. After an exhausted event reached the Kafka dead-letter topic, the next event on the same partition succeeded and only the valid order reduced stock.",
     status: "in-progress", featured: true,
     github: { href: "https://github.com/azim-haffar/OrderFlow", label: "Code" },
     liveDemo: { href: null, label: "Live demo" }, caseStudyHref: "/projects/orderflow", caseStudyReady: true,
@@ -73,9 +73,9 @@ export const projects: Project[] = [
       { title: "My contribution", body: "I built the Spring Boot API, order and inventory workflow, persistence, messaging, caching, React dashboard, and integration tests. Recent reliability work propagates listener failures for retry and exercises duplicate delivery, cancellation races, transaction rollback, and outbox replay." },
       { title: "One decision: persist before publishing", body: "The API writes the order and its outbox event together in PostgreSQL. Publication is separate, so broker unavailability does not require losing the accepted order. Delivery remains at least once: an order-state guard and consistent order-before-product locking prevent repeated stock deduction for this transition." },
       { title: "What happened when Kafka stopped", body: "In the 6 October local experiment, three orders submitted while Kafka was paused remained PLACED, their outbox rows stayed PENDING, and stock stayed at 27. After Kafka resumed, all three orders were observed CONFIRMED and their events PUBLISHED; stock became 24. Explicitly replaying one order left stock at 24. This was one controlled local scenario, not a production availability guarantee." },
-      { title: "Verification and evidence scope", body: "Existing XML reports and a fresh Maven build record show 17 local tests, with zero failures, errors, or skips: four unit tests and thirteen container-backed integration tests. Seven reliability tests cover duplicates, both cancellation-race winners, rollback/retry, and outbox replay. A separate baseline used 20 sequential orders at concurrency one. Neither that small sample nor the test count establishes throughput or production tail latency. The linked published engineering record describes the earlier 17-test run; the latest 6 October measurement artifacts remain local and unpublished." },
+      { title: "Verification and evidence scope", body: "Existing XML reports and a fresh Maven build record show 17 local tests, with zero failures, errors, or skips: four unit tests and thirteen container-backed integration tests. Seven reliability tests cover duplicates, both cancellation-race winners, rollback/retry, and outbox replay. A separate baseline used 20 sequential orders at concurrency one. Neither that small sample nor the test count establishes throughput or production tail latency. This October result precedes the 18-test November verification." },
       { title: "Demo", body: "Run Docker Compose from the repository, then execute ./scripts/demo.ps1 in PowerShell. The script checks order confirmation, replay with unchanged stock, cancellation conflict, and insufficient-stock cancellation. It consumes two units per run and does not reset the database. The published repository includes setup and demo instructions. This portfolio walkthrough is an architecture explanation, not a live connection to that backend." },
-      { title: "Limits and next work", body: "The outbox assumes one publisher. Permanent listener failures can block a partition; durable dead-letter recovery and authentication are absent. Cache eviction is not atomic with the database commit. Process-crash recovery, multi-instance coordination, and measured load behavior need separate verification." },
+      { title: "Limits and next work", body: "The outbox assumes one publisher. Consumer retries are bounded before routing exhausted events to a Kafka dead-letter topic. Dead-letter send failure was reviewed in configuration only. Authentication remains absent. Cache eviction is not atomic with the database commit. Process-crash recovery, multi-instance coordination, and measured load behavior need separate verification." },
     ],
   },
   {
@@ -83,8 +83,8 @@ export const projects: Project[] = [
     description: "I built a CV analysis workflow and tested an offline journey from upload and feedback to tracking, history, and deletion using synthetic inputs.",
     technologies: ["Python", "FastAPI", "React", "JavaScript", "Supabase", "Groq"],
     capabilities: ["Upload → feedback → tracking → deletion", "Desktop + mobile offline journeys", "Separate scoring and generated advice"],
-    limitations: "Latest improvements are local and unpublished. Mocked providers; live authentication and model quality remain unverified.",
-    verification: "Recorded Linux CI: 43 backend tests, seven evaluator controls, three frontend tests and synthetic desktop/mobile journeys. Final local revision 709adc8 remains unpublished.",
+    limitations: "Offline authored advice and mocked providers. Live authentication and Groq output quality remain unverified.",
+    verification: "Revision 187ca39: three of six authored grounded-advice cases passed. Five focused tests and seven existing evaluator controls passed. No live Groq evaluation.",
     status: "in-progress", featured: true,
     github: { href: "https://github.com/azim-haffar/HireLens", label: "Code" }, liveDemo: { href: null, label: "Live demo" },
     caseStudyHref: "/projects/hirelens", caseStudyReady: true, demoGuideHref: "/projects/hirelens#demo", evidenceHref: "https://github.com/azim-haffar/HireLens/actions/runs/42431954489",
@@ -92,10 +92,10 @@ export const projects: Project[] = [
     imageCaption: "Local offline journey with mocked authentication/API responses. Displayed fixture scores are illustrative, not employer ATS results or hiring predictions.",
     caseStudy: [
       { title: "The problem", body: "CV tools can blur extracted facts, rule-based scores, and generated advice. I wanted a workflow where users can inspect feedback, understand its limits, and keep analysis and tracker history consistent." },
-      { title: "My contribution", body: "I built a FastAPI backend and React interface with document processing, LLM integration, a Supabase-backed workflow, and a five-language interface. The latest local pass adds output validation, ownership checks, consistent scoring/history, streaming handling, retry states, and mobile interaction improvements. The final local revision 709adc8 is unpublished; the linked public repository may differ." },
+      { title: "My contribution", body: "I built a FastAPI backend and React interface with document processing, LLM integration, a Supabase-backed workflow, and a five-language interface. The latest local pass adds output validation, ownership checks, consistent scoring/history, streaming handling, retry states, and mobile interaction improvements. The latest evidence adds an offline grounded-advice review with three negative controls." },
       { title: "One decision: separate facts from advice", body: "Match and ATS scores are application heuristics applied to extracted fields, not hiring predictions. Both results are computed before one history insert. Changing the CV/job pair invalidates old results; late responses are ignored. Generated advice is labeled separately, with structural checks and failure/retry states. Valid JSON alone does not prove truthful advice." },
       { title: "Verification and evidence scope", body: "The recorded Linux CI run passed 43 backend tests, three frontend tests, seven authored evaluator controls, and synthetic desktop/mobile browser journeys. The inspected journey report records no browser errors, unexpected external requests, or horizontal analysis overflow. Browser authentication/API responses are mocked; separate API tests execute real routers with in-memory service adapters. These layers do not establish a live browser-to-database flow, deployed Supabase permissions, or model accuracy. Authored controls test the evaluator, not a model." },
-      { title: "Demo", body: "The latest local offline runner can be launched from the frontend with HEADED=1 and npm run test:journey after installing Chromium. It walks through upload validation, job input, scoring, generation failure/retry, tracker save/update, history, deletion, and sign-out. It uses synthetic identities and mocked providers, needs no API keys, and makes no live model calls. The screenshots here show that local runner; the linked public repository does not yet contain this latest demo implementation." },
+      { title: "Demo", body: "The latest local offline runner can be launched from the frontend with HEADED=1 and npm run test:journey after installing Chromium. It walks through upload validation, job input, scoring, generation failure/retry, tracker save/update, history, deletion, and sign-out. It uses synthetic identities and mocked providers, needs no API keys, and makes no live model calls. The screenshots here show that local runner; the linked repository documents the offline walkthrough." },
       { title: "Limits and next work", body: "Live OAuth, Groq output quality, Supabase permissions, and email delivery remain unverified. Human review of model responses is still needed. Chromium coverage is limited to two emulated viewports and a selected journey. Parser isolation, broader accessibility checks, and dependency remediation remain priorities." },
     ],
   },
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     technologies: ["Python", "PyTorch", "FastAPI", "WebSockets", "React", "JavaScript"],
     capabilities: ["Live metrics matched a synthetic CPU run", "Explicit stop, error and completion states", "Checkpoint loading verified; resume absent"],
     limitations: "Synthetic results demonstrate the pipeline, not model quality. Resume is absent; one worker and one shared run.",
-    verification: "Reviewed 6 October 2026 · Local verification recorded 4 October · Implementation and notes published",
+    verification: "Revision c23afc9: 16 backend and four frontend tests, plus desktop and mobile synthetic runs.",
     status: "in-progress", featured: true,
     github: { href: "https://github.com/azim-haffar/ml-training-inspector", label: "Code" }, liveDemo: { href: null, label: "Live demo" },
     caseStudyHref: "/projects/ml-training-inspector", caseStudyReady: true, demoGuideHref: "/projects/ml-training-inspector#demo",
@@ -113,6 +113,7 @@ export const projects: Project[] = [
     imageWidth: 1265, imageHeight: 1968, imageSrc: "/projects/ml-training-dashboard.jpg", imageAlt: "ML Training Inspector showing measured synthetic CPU demo loss, accuracy and gradient charts", imageFit: "cover", imagePosition: "50% 42%",
     imageCaption: "Actual dashboard from a seeded two-epoch synthetic CPU run. The observed metrics verify the visualization pipeline, not real-world predictive quality. Checkpoint resume is unavailable.",
     caseStudy: [
+      {"title":"Saved runs and evaluation split","body":"Saved runs can be compared side by side, including runs with differing settings and older runs with missing fields. CIFAR-10 uses a 45,000/5,000 train/validation split and a separate final test entry point. Full CIFAR-10 training and final test execution were outside this verification."},
       { title: "The problem", body: "A training loop can produce numbers without making its behavior understandable. I built a browser dashboard to expose loss, accuracy, gradients, class-level results, and run state while training progresses." },
       { title: "My contribution", body: "I connected PyTorch training to FastAPI and WebSockets, built React charts and an accessible epoch table, and added manual stopping and checkpoint saving. Recent work corrects example-weighted loss aggregation, bounds per-client queues, handles disconnects and terminal outcomes, and adds a seeded, download-free CPU demonstration." },
       { title: "One decision: keep run ownership explicit", body: "The backend deliberately supports one shared run in one worker. Conflicting starts receive HTTP 409. Bounded client queues protect memory, and reconnects recover status and the latest epoch metadata rather than promising missed chart history. Stopped and error states remain distinct from successful completion." },
@@ -120,5 +121,44 @@ export const projects: Project[] = [
       { title: "Demo", body: "Follow the published README to install the CPU demo dependencies and run python scripts/demo.py. For the browser walkthrough, start the backend with one worker and the frontend, choose the synthetic dataset, and run two SimpleCNN epochs. Inspect the charts and matching epoch table, then explore stop and snapshot controls. The capture on this page comes from the verified synthetic run. No public hosted service is linked." },
       { title: "Limits and next work", body: "GPU runs, full CIFAR-10 training, ResNet9 training, containers, and cross-platform repeatability were not verified in that record. There is no authentication or per-user ownership. Heuristic gradient signals have no detection-quality evaluation; some near-zero gradients can be benign. Checkpoint resume and reconnect chart-history replay are not implemented." },
     ],
+  },
+  {
+    "slug": "heart-disease-prediction",
+    "title": "Heart Disease Prediction System",
+    "focus": "Applied ML / Streamlit",
+    "description": "Built a Streamlit project with an educational classifier evaluation and a companion workflow that exports a printable visit summary.",
+    "technologies": [
+      "Python",
+      "Streamlit"
+    ],
+    "capabilities": [
+      "Printable visit summary",
+      "Fictional complete and incomplete cases"
+    ],
+    "limitations": "Educational project. Clinical applicability and deployment are unverified.",
+    "verification": "At revision 61288f2, complete and incomplete fictional cases each printed to one US Letter page in Edge. An initial full run had one timeout, which passed in a focused rerun.",
+    "status": "in-progress",
+    "featured": true,
+    "github": {
+      "href": "https://github.com/azim-haffar/heart-disease-prediction-system",
+      "label": "Code"
+    },
+    "liveDemo": {
+      "href": null,
+      "label": "Demo"
+    },
+    "evidenceHref": "https://github.com/azim-haffar/heart-disease-prediction-system/commit/61288f2",
+    "caseStudyHref": "/projects/heart-disease-prediction",
+    "caseStudyReady": true,
+    "caseStudy": [
+      {
+        "title": "One decision: keep the printable summary to one page",
+        "body": "The Streamlit companion turns visit inputs into a printable summary. I checked complete and incomplete fictional cases using Edge print-to-PDF. Both fit on one US Letter page."
+      },
+      {
+        "title": "Scope",
+        "body": "The classifier work is an educational evaluation. The print check verifies layout for those fictional cases. It provides no evidence of clinical performance or deployment."
+      }
+    ]
   },
 ];

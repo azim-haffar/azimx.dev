@@ -24,6 +24,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const project = projects.find(p => p.slug === slug);
   if (!project?.caseStudyReady || !project.caseStudy) notFound();
+  const decision = project.caseStudy.find(section => section.title.startsWith("One decision: "));
   const ready = projects.filter(item => item.caseStudyReady);
   const nextProject = ready[(ready.findIndex(item => item.slug === slug) + 1) % ready.length];
   return (
@@ -33,13 +34,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="case-header">
         <p className="eyebrow mt-8">{project.focus} / Engineering notes</p>
         <h1 className="mt-4 text-5xl font-semibold tracking-tight sm:text-6xl">{project.title}</h1>
-        <p className="mt-5 max-w-2xl text-xl leading-relaxed text-fg-muted">{project.description}</p>
+        {project.slug === "orderflow" && <p className="mt-5 max-w-2xl text-xl leading-relaxed text-fg-muted">After a failed event reached the Kafka dead-letter topic, the next order on the same partition succeeded. Only the valid order reduced stock.</p>}
         {project.liveDemo.href && <a href={project.liveDemo.href} target="_blank" rel="noopener noreferrer" className="mt-6 mr-6 inline-flex items-center gap-2 py-2 font-medium text-accent">{project.liveDemo.label} <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
         {project.github.href && <a href={project.github.href} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 py-2 font-medium text-accent">{project.github.label === "Code (private)" ? "Private repository (access required)" : "Inspect the repository"} <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></a>}
         <p className="case-tech-line">{project.technologies.join(" / ")}</p>
-        <p id="verification" className="scroll-mt-28 mt-4 font-mono text-xs leading-relaxed text-fg-subtle">{project.verification}</p>
+        {project.slug === "seatledger" && project.imageSrc && <p className="mt-3 text-sm text-fg-muted"><a href={project.imageSrc} className="font-medium text-accent underline underline-offset-4">View the demo screenshot</a><span> · Hosted demo may take a minute or more to start. Booking may be closed.</span></p>}
         </div>
-        <section className="case-overview" aria-label="Project at a glance"><div><p className="eyebrow">The work</p><p>{project.description}</p></div><div><p className="eyebrow">Evidence</p><p>{project.verification}</p></div><div><p className="eyebrow">Scope</p><p>{project.limitations}</p></div></section>
+        <section className="case-overview" aria-label="Project at a glance"><div><p className="eyebrow">What I built</p><p>{project.description}</p></div><div><p className="eyebrow">Key decision</p><p>{decision?.title.slice("One decision: ".length)}</p></div><div id="verification" className="scroll-mt-28"><p className="eyebrow">Verification</p><p>{project.verification}</p></div></section>
+        <p className="mt-4 text-sm leading-relaxed text-fg-muted">{project.limitations}</p>
         {project.evidenceHref && <a href={project.evidenceHref} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 py-2 text-sm font-medium text-blue">Published verification record <ArrowUpRight size={14} aria-hidden="true" /></a>}
         <nav aria-label="Case study contents" className="case-contents my-8 rounded-xl border border-border p-4"><p className="font-mono text-xs uppercase tracking-widest text-fg-subtle">Inside this case study</p><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">{project.caseStudy.map((section,index)=><a key={section.title} href={`#${sectionAnchor(section.title)}`} className="inline-flex min-h-11 items-center gap-2 text-sm text-fg-muted hover:text-accent"><span className="font-mono text-xs text-blue">{String(index+1).padStart(2,"0")}</span>{section.title.startsWith("One decision") ? "Key decision" : section.title}</a>)}</div></nav>
         {project.imageSrc && <figure className="my-10"><a href={project.imageSrc} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size ${project.title} screenshot`} className="block overflow-hidden rounded-xl border border-border bg-surface"><Image src={project.imageSrc} alt={project.imageAlt ?? project.title} width={project.imageWidth ?? 1440} height={project.imageHeight ?? 1000} sizes="(min-width: 1024px) 850px, 100vw" className="h-auto w-full" /></a><figcaption className="mt-3 text-sm leading-6 text-fg-muted">{project.imageCaption} <span className="text-fg-subtle">Select the image for the full-size capture.</span></figcaption></figure>}
